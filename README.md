@@ -2,7 +2,7 @@
 
 A reproducible, API-key-free **governed multi-agent RAG** framework for arbitrary document corpora. It combines request-scoped indexing, keyword/vector/graph retrieval agents, source-linked traversal, typed boundaries, citation verification, runtime trust evaluation, human escalation, and audit trails.
 
-**[Open the live Groundline app](https://danielchen26.github.io/governed-multi-agent-rag/)** · **[Live API docs](https://groundline-api-production.up.railway.app/docs)** · [View CI](https://github.com/danielchen26/governed-multi-agent-rag/actions)
+**[Open the live Groundline app](https://multiagent-graphrag.vercel.app/)** · **[Live API docs](https://multiagent-graphrag-api.vercel.app/docs)** · [View CI](https://github.com/youseihuayu-wonderful/multiagent-GraphRag/actions)
 
 > Portfolio status: working engineering prototype, not a production SLA. The bundled financial domain pack is synthetic; user-provided document workspaces are ephemeral and are not persisted.
 
@@ -44,7 +44,7 @@ Interactive surfaces include:
 The hosted interface executes new queries against:
 
 ```text
-https://groundline-api-production.up.railway.app
+https://multiagent-graphrag-api.vercel.app
 ```
 
 To run the complete stack locally:
@@ -120,8 +120,8 @@ flowchart TD
 ## Quick start
 
 ```bash
-git clone https://github.com/danielchen26/governed-multi-agent-rag.git
-cd governed-multi-agent-rag
+git clone https://github.com/youseihuayu-wonderful/multiagent-GraphRag.git
+cd multiagent-GraphRag
 uv sync --extra dev --no-editable
 uv run governed-rag query "What drove Northstar's cloud revenue growth?"
 ```
@@ -184,9 +184,9 @@ make serve-ollama
 
 The preset connects to `http://127.0.0.1:11434/api/chat`, uses native Ollama JSON mode, and enables both Hybrid and strict LLM Agent controls in the local React app. On the tested M4 Max host, the full planner → retrieval → synthesis → trust path completed successfully with `qwen2.5:7b`.
 
-#### Run the Railway app with Ollama Cloud
+#### Run the deployed API with Ollama Cloud
 
-Create an API key at [ollama.com/settings/keys](https://ollama.com/settings/keys), then configure these Railway service variables directly in the dashboard:
+Create an API key at [ollama.com/settings/keys](https://ollama.com/settings/keys), then configure these variables on the API deployment:
 
 ```env
 GOVERNED_RAG_LLM_PROVIDER=ollama-cloud
@@ -200,15 +200,13 @@ Direct Ollama Cloud model names omit the local `:cloud` suffix. Groundline uses 
 
 For authenticated self-hosting, set `GOVERNED_RAG_API_KEYS` to a comma-separated list and send `Authorization: Bearer <key>`. Rate limits are then isolated by a non-reversible key fingerprint instead of client IP. Leave this variable empty only for the public demonstration. The bearer option targets service integrations; a browser deployment should use an OAuth/session gateway rather than embedding an API key in frontend assets.
 
-Interactive API documentation is available locally at `http://127.0.0.1:8000/docs` and publicly at [groundline-api-production.up.railway.app/docs](https://groundline-api-production.up.railway.app/docs).
+Interactive API documentation is available locally at `http://127.0.0.1:8000/docs` and publicly at [multiagent-graphrag-api.vercel.app/docs](https://multiagent-graphrag-api.vercel.app/docs).
 
 ## Public deployment
 
-The static React application is deployed to GitHub Pages. Its `VITE_API_URL` repository variable points to a containerized FastAPI service on Railway. The backend deployment includes:
+The React application and FastAPI service are deployed as separate public Vercel projects. The frontend proxies `/api/*` to the API deployment, so browser requests stay same-origin. The backend deployment includes:
 
-- Railway health checks against `/health`
-- dynamic `PORT` binding and proxy-header support
-- an explicit GitHub Pages CORS allowlist
+- health checks through `/health` and interactive OpenAPI docs at `/docs`
 - request validation, a 512 KB body limit, 20-source cap, and 120,000-character workspace cap
 - request-scoped general indexes with no document persistence or external web calls
 - optional server-side LLM secrets with no key exposure to the browser
@@ -216,7 +214,7 @@ The static React application is deployed to GitHub Pages. Its `VITE_API_URL` rep
 - a per-client public-demo rate limit
 - no fault-injection controls on the public endpoint
 
-`railway.json` and the root `Dockerfile` contain the reproducible backend deployment configuration.
+The root `vercel.json` and `api/index.py` configure the API deployment. `frontend/vercel.json` configures the Vite deployment and its API rewrite. `railway.json` and the root `Dockerfile` remain available for container-based deployments.
 
 ## Evaluation design
 

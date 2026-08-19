@@ -3,5 +3,5 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: process.env.GITHUB_ACTIONS ? '/governed-multi-agent-rag/' : '/',
+  base: process.env.GITHUB_ACTIONS ? '/multiagent-GraphRag/' : '/',
 })

@@ -127,10 +127,10 @@ const BUILD_STEPS = [
     implementation: [
       'FastAPI validates QueryRequest and serializes the typed QueryResponse.',
       'The 20-case suite verifies routes, expected sources, decisions, unsafe blocking, and latency.',
-      'GitHub Actions runs Ruff, pytest, evaluation, frontend lint, build, and Pages deployment.',
+      'GitHub Actions runs Ruff, pytest, evaluation, frontend lint, and build; Vercel hosts the public API and walkthrough.',
     ],
     code: 'POST /query { query, top_k }\nmake test && make evaluate && make frontend-build',
-    artifact: 'Docker image + GitHub Pages artifact',
+    artifact: 'Vercel deployments + container image',
   },
 ] as const
 

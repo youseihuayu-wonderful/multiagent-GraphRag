@@ -23,7 +23,7 @@ from governed_rag.models import GeneralQueryRequest, QueryRequest, QueryResponse
 SERVICE_VERSION = "0.6.0"
 DEFAULT_ORIGINS = (
     "http://localhost:5173,http://127.0.0.1:5173,"
-    "https://danielchen26.github.io"
+    "https://youseihuayu-wonderful.github.io"
 )
 logging.basicConfig(level=os.getenv("GOVERNED_RAG_LOG_LEVEL", "INFO"))
 logger = logging.getLogger("groundline.api")

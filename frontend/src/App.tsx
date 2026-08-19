@@ -311,7 +311,7 @@ function App() {
             <a href="#scenarios">Examples</a>
             <a href="#build">Architecture</a>
           </div>
-          <a className="github-link" href="https://github.com/danielchen26/governed-multi-agent-rag" target="_blank" rel="noreferrer">
+          <a className="github-link" href="https://github.com/youseihuayu-wonderful/multiagent-GraphRag" target="_blank" rel="noreferrer">
             <Code2 size={16} aria-hidden="true" /> Source
           </a>
         </nav>
@@ -338,7 +338,7 @@ function App() {
             </div>
             <div className="hero-actions">
               <a className="button button--primary" href="#playground">Run a live query <ArrowUpRight size={17} /></a>
-              <a className="button button--secondary" href="https://github.com/danielchen26/governed-multi-agent-rag#readme" target="_blank" rel="noreferrer">
+              <a className="button button--secondary" href="https://github.com/youseihuayu-wonderful/multiagent-GraphRag#readme" target="_blank" rel="noreferrer">
                 <BookOpenCheck size={17} /> Read methodology
               </a>
             </div>
@@ -393,7 +393,7 @@ function App() {
                 <button type="button" role="radio" aria-checked={executionMode === 'hybrid'} onClick={() => setExecutionMode('hybrid')} disabled={isLoading || !llmAvailable}><ShieldCheck size={16} /><span><strong>Hybrid</strong><small>LLM planner + safe fallback</small></span></button>
                 <button type="button" role="radio" aria-checked={executionMode === 'llm'} onClick={() => setExecutionMode('llm')} disabled={isLoading || !llmAvailable}><GitFork size={16} /><span><strong>LLM agents</strong><small>Strict model-driven workflow</small></span></button>
               </div>
-              <p className={llmAvailable ? 'agent-mode-status is-ready' : 'agent-mode-status'}>{llmAvailable ? `Server provider ready · ${llmModel ?? 'configured model'} · LLM modes send retrieved excerpts to that provider.` : 'The public server has no LLM secret configured. Deterministic mode remains fully operational; configure the Railway provider secret to unlock Hybrid and LLM Agents.'}</p>
+              <p className={llmAvailable ? 'agent-mode-status is-ready' : 'agent-mode-status'}>{llmAvailable ? `Server provider ready · ${llmModel ?? 'configured model'} · LLM modes send retrieved excerpts to that provider.` : 'The public server has no LLM secret configured. Deterministic mode remains fully operational; configure the Vercel API project secrets to unlock Hybrid and LLM Agents.'}</p>
             </div>
           ) : null}
 
@@ -463,7 +463,7 @@ function App() {
 
       <footer>
         <div><span className="brand">Groundline</span><p>Governed multi-agent retrieval, built as an inspectable engineering portfolio project.</p></div>
-        <a href="https://github.com/danielchen26/governed-multi-agent-rag" target="_blank" rel="noreferrer">View repository <ArrowUpRight size={15} /></a>
+        <a href="https://github.com/youseihuayu-wonderful/multiagent-GraphRag" target="_blank" rel="noreferrer">View repository <ArrowUpRight size={15} /></a>
       </footer>
     </div>
   )
