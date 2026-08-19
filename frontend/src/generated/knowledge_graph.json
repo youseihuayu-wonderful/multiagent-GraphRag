@@ -1,0 +1,421 @@
+{
+  "generated_at": "2026-08-14T19:38:52.221425+00:00",
+  "synthetic": true,
+  "construction": "Curated entity-relation extraction from the 12-document synthetic corpus",
+  "nodes": [
+    {
+      "id": "org:northstar",
+      "label": "Northstar Technologies",
+      "type": "organization",
+      "aliases": [
+        "Northstar",
+        "company"
+      ]
+    },
+    {
+      "id": "org:harbor",
+      "label": "Harbor Industrial Systems",
+      "type": "organization",
+      "aliases": [
+        "Harbor"
+      ]
+    },
+    {
+      "id": "product:cloud",
+      "label": "Cloud platform",
+      "type": "product",
+      "aliases": [
+        "cloud",
+        "enterprise migrations",
+        "security analytics"
+      ]
+    },
+    {
+      "id": "metric:revenue",
+      "label": "Revenue growth",
+      "type": "metric",
+      "aliases": [
+        "revenue",
+        "sales",
+        "growth"
+      ]
+    },
+    {
+      "id": "metric:margin",
+      "label": "Operating margin",
+      "type": "metric",
+      "aliases": [
+        "margin",
+        "gross margin",
+        "profitability"
+      ]
+    },
+    {
+      "id": "risk:concentration",
+      "label": "Customer concentration",
+      "type": "risk",
+      "aliases": [
+        "largest customers",
+        "customer risk"
+      ]
+    },
+    {
+      "id": "risk:compute",
+      "label": "Cloud infrastructure costs",
+      "type": "risk",
+      "aliases": [
+        "computing costs",
+        "infrastructure optimization",
+        "support costs"
+      ]
+    },
+    {
+      "id": "risk:cyber",
+      "label": "Cybersecurity incidents",
+      "type": "risk",
+      "aliases": [
+        "data-security failures",
+        "service outages",
+        "cybersecurity"
+      ]
+    },
+    {
+      "id": "metric:rpo",
+      "label": "Remaining performance obligations",
+      "type": "metric",
+      "aliases": [
+        "RPO",
+        "renewal rates",
+        "enterprise contracts"
+      ]
+    },
+    {
+      "id": "esg:emissions",
+      "label": "Scope 1 and Scope 2 emissions",
+      "type": "esg_metric",
+      "aliases": [
+        "greenhouse gas emissions",
+        "carbon",
+        "emissions"
+      ]
+    },
+    {
+      "id": "esg:renewables",
+      "label": "Renewable electricity",
+      "type": "esg_driver",
+      "aliases": [
+        "renewable energy",
+        "data-center electricity"
+      ]
+    },
+    {
+      "id": "esg:scope3",
+      "label": "Scope 3 emissions",
+      "type": "esg_metric",
+      "aliases": [
+        "supplier logistics",
+        "hardware purchases"
+      ]
+    },
+    {
+      "id": "governance:modelrisk",
+      "label": "Model-risk council",
+      "type": "governance",
+      "aliases": [
+        "responsible AI",
+        "human approval",
+        "model risk"
+      ]
+    },
+    {
+      "id": "macro:inflation",
+      "label": "Consumer inflation",
+      "type": "macro_indicator",
+      "aliases": [
+        "CPI",
+        "price pressures",
+        "core services"
+      ]
+    },
+    {
+      "id": "macro:labor",
+      "label": "Labor market",
+      "type": "macro_indicator",
+      "aliases": [
+        "payroll",
+        "unemployment",
+        "wage growth",
+        "job openings"
+      ]
+    },
+    {
+      "id": "macro:fed",
+      "label": "Monetary policy",
+      "type": "policy",
+      "aliases": [
+        "Federal Reserve",
+        "policy committee",
+        "interest rates",
+        "benchmark rate"
+      ]
+    },
+    {
+      "id": "macro:gdp",
+      "label": "Gross domestic product",
+      "type": "macro_indicator",
+      "aliases": [
+        "GDP",
+        "economic growth",
+        "business investment"
+      ]
+    },
+    {
+      "id": "market:enterprise",
+      "label": "Enterprise technology demand",
+      "type": "market",
+      "aliases": [
+        "enterprise spending",
+        "sales cycles",
+        "technology demand"
+      ]
+    },
+    {
+      "id": "market:automotive",
+      "label": "Automotive demand",
+      "type": "market",
+      "aliases": [
+        "automotive customers"
+      ]
+    },
+    {
+      "id": "product:automation",
+      "label": "Automation equipment",
+      "type": "product",
+      "aliases": [
+        "machine vision",
+        "aftermarket services"
+      ]
+    },
+    {
+      "id": "esg:supplier",
+      "label": "Supplier oversight",
+      "type": "governance",
+      "aliases": [
+        "supplier audits",
+        "human-rights assessment",
+        "supplier engagement"
+      ]
+    },
+    {
+      "id": "risk:regulatory",
+      "label": "Regulatory costs",
+      "type": "risk",
+      "aliases": [
+        "regulation",
+        "regulatory risk"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "org:northstar",
+      "target": "product:cloud",
+      "relation": "operates",
+      "source_ids": [
+        "NST-10K-2025-REV",
+        "NST-Q1-2026-MARGIN"
+      ]
+    },
+    {
+      "source": "product:cloud",
+      "target": "metric:revenue",
+      "relation": "drives",
+      "source_ids": [
+        "NST-10K-2025-REV"
+      ]
+    },
+    {
+      "source": "product:cloud",
+      "target": "metric:margin",
+      "relation": "contributes_to",
+      "source_ids": [
+        "NST-Q1-2026-MARGIN"
+      ]
+    },
+    {
+      "source": "risk:compute",
+      "target": "metric:margin",
+      "relation": "pressures",
+      "source_ids": [
+        "NST-10K-2025-RISK",
+        "NST-Q1-2026-MARGIN"
+      ]
+    },
+    {
+      "source": "org:northstar",
+      "target": "risk:concentration",
+      "relation": "exposed_to",
+      "source_ids": [
+        "NST-10K-2025-RISK"
+      ]
+    },
+    {
+      "source": "risk:concentration",
+      "target": "metric:revenue",
+      "relation": "threatens",
+      "source_ids": [
+        "NST-10K-2025-RISK"
+      ]
+    },
+    {
+      "source": "org:northstar",
+      "target": "risk:cyber",
+      "relation": "exposed_to",
+      "source_ids": [
+        "NST-10K-2025-RISK",
+        "NST-ESG-2025-GOV"
+      ]
+    },
+    {
+      "source": "risk:cyber",
+      "target": "risk:regulatory",
+      "relation": "can_trigger",
+      "source_ids": [
+        "NST-10K-2025-RISK"
+      ]
+    },
+    {
+      "source": "metric:rpo",
+      "target": "metric:revenue",
+      "relation": "signals_future",
+      "source_ids": [
+        "NST-Q1-2026-MARGIN"
+      ]
+    },
+    {
+      "source": "market:enterprise",
+      "target": "product:cloud",
+      "relation": "creates_demand_for",
+      "source_ids": [
+        "NST-10K-2025-REV",
+        "NST-Q1-2026-MARGIN"
+      ]
+    },
+    {
+      "source": "macro:gdp",
+      "target": "market:enterprise",
+      "relation": "influences",
+      "source_ids": [
+        "MACRO-GDP-2026-Q2"
+      ]
+    },
+    {
+      "source": "macro:fed",
+      "target": "market:enterprise",
+      "relation": "influences",
+      "source_ids": [
+        "MACRO-FED-2026-07",
+        "NST-Q1-2026-MARGIN"
+      ]
+    },
+    {
+      "source": "macro:inflation",
+      "target": "macro:fed",
+      "relation": "informs",
+      "source_ids": [
+        "MACRO-CPI-2026-06",
+        "MACRO-FED-2026-07"
+      ]
+    },
+    {
+      "source": "macro:labor",
+      "target": "macro:fed",
+      "relation": "informs",
+      "source_ids": [
+        "MACRO-LABOR-2026-06",
+        "MACRO-FED-2026-07"
+      ]
+    },
+    {
+      "source": "org:northstar",
+      "target": "esg:emissions",
+      "relation": "reports",
+      "source_ids": [
+        "NST-ESG-2025-EMISSIONS"
+      ]
+    },
+    {
+      "source": "esg:renewables",
+      "target": "esg:emissions",
+      "relation": "reduces",
+      "source_ids": [
+        "NST-ESG-2025-EMISSIONS"
+      ]
+    },
+    {
+      "source": "product:cloud",
+      "target": "esg:scope3",
+      "relation": "increases_hardware_demand",
+      "source_ids": [
+        "NST-ESG-2025-EMISSIONS"
+      ]
+    },
+    {
+      "source": "esg:supplier",
+      "target": "esg:scope3",
+      "relation": "mitigates",
+      "source_ids": [
+        "NST-ESG-2025-EMISSIONS",
+        "ESG-STANDARD-2026"
+      ]
+    },
+    {
+      "source": "org:northstar",
+      "target": "governance:modelrisk",
+      "relation": "established",
+      "source_ids": [
+        "NST-ESG-2025-GOV"
+      ]
+    },
+    {
+      "source": "governance:modelrisk",
+      "target": "risk:regulatory",
+      "relation": "mitigates",
+      "source_ids": [
+        "NST-ESG-2025-GOV"
+      ]
+    },
+    {
+      "source": "org:harbor",
+      "target": "product:automation",
+      "relation": "sells",
+      "source_ids": [
+        "HARBOR-10K-2025"
+      ]
+    },
+    {
+      "source": "market:automotive",
+      "target": "metric:revenue",
+      "relation": "influences",
+      "source_ids": [
+        "HARBOR-10K-2025"
+      ]
+    },
+    {
+      "source": "org:harbor",
+      "target": "esg:supplier",
+      "relation": "oversees",
+      "source_ids": [
+        "HARBOR-ESG-2025"
+      ]
+    },
+    {
+      "source": "org:harbor",
+      "target": "esg:renewables",
+      "relation": "procures",
+      "source_ids": [
+        "HARBOR-ESG-2025"
+      ]
+    }
+  ]
+}

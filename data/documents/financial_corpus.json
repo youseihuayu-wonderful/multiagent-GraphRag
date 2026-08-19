@@ -1,0 +1,98 @@
+[
+  {
+    "source_id": "NST-10K-2025-REV",
+    "title": "Northstar Technologies 2025 Annual Report — Revenue",
+    "domain": "equity",
+    "published_at": "2026-02-18",
+    "synthetic": true,
+    "text": "Northstar Technologies reported fiscal 2025 revenue of $8.4 billion, an increase of 18 percent from the prior year. Cloud platform revenue grew 31 percent and represented 46 percent of total revenue. Management attributed cloud growth to enterprise migrations, higher usage by existing customers, and expansion of the security analytics product. Subscription revenue was partially offset by lower hardware sales."
+  },
+  {
+    "source_id": "NST-10K-2025-RISK",
+    "title": "Northstar Technologies 2025 Annual Report — Risk Factors",
+    "domain": "equity",
+    "published_at": "2026-02-18",
+    "synthetic": true,
+    "text": "Northstar identified customer concentration, cloud infrastructure costs, cybersecurity incidents, and competition as material risks. Its three largest customers represented 22 percent of annual revenue. A sustained increase in computing costs could reduce cloud gross margin, while service outages or data-security failures could damage customer trust and lead to regulatory costs."
+  },
+  {
+    "source_id": "NST-Q1-2026-MARGIN",
+    "title": "Northstar Technologies Q1 2026 Earnings Release",
+    "domain": "equity",
+    "published_at": "2026-05-07",
+    "synthetic": true,
+    "text": "First-quarter revenue reached $2.25 billion and operating margin increased to 19.4 percent from 16.8 percent one year earlier. Management cited cloud infrastructure optimization, improved renewal rates, and lower support costs. Remaining performance obligations increased 24 percent, although sales cycles for large enterprise contracts lengthened in Europe."
+  },
+  {
+    "source_id": "HARBOR-10K-2025",
+    "title": "Harbor Industrial Systems 2025 Annual Report",
+    "domain": "equity",
+    "published_at": "2026-03-02",
+    "synthetic": true,
+    "text": "Harbor Industrial Systems generated $3.1 billion of revenue in 2025. Automation equipment accounted for 58 percent of sales and aftermarket services accounted for 27 percent. Supply-chain normalization improved delivery times, but demand from automotive customers weakened during the fourth quarter. The company expects research and development spending to rise as it expands machine-vision products."
+  },
+  {
+    "source_id": "MACRO-CPI-2026-06",
+    "title": "Illustrative U.S. CPI Consumer Price Update — June 2026",
+    "domain": "macro",
+    "published_at": "2026-07-14",
+    "synthetic": true,
+    "text": "The illustrative consumer price index increased 2.6 percent over the twelve months ending June 2026. Shelter inflation moderated, energy prices declined, and core services remained the largest contributor to monthly inflation. The three-month annualized core measure was lower than its level at the beginning of the year, suggesting gradual disinflation rather than a rapid return to target."
+  },
+  {
+    "source_id": "MACRO-LABOR-2026-06",
+    "title": "Illustrative U.S. Labor Market Brief — June 2026",
+    "domain": "macro",
+    "published_at": "2026-07-08",
+    "synthetic": true,
+    "text": "Nonfarm payroll growth slowed while the unemployment rate held at 4.2 percent in the illustrative June 2026 labor report. Wage growth remained above consumer inflation but job openings declined in technology and professional services. Participation increased slightly, and average weekly hours were unchanged."
+  },
+  {
+    "source_id": "MACRO-FED-2026-07",
+    "title": "Illustrative Monetary Policy Summary — July 2026",
+    "domain": "macro",
+    "published_at": "2026-07-30",
+    "synthetic": true,
+    "text": "The policy committee maintained the benchmark interest-rate range and emphasized that future decisions would depend on inflation, employment, and financial conditions. Members noted progress on inflation but wanted additional evidence that price pressures were moving sustainably toward target. The statement described economic activity as expanding at a moderate pace."
+  },
+  {
+    "source_id": "MACRO-GDP-2026-Q2",
+    "title": "Illustrative U.S. GDP Snapshot — Q2 2026",
+    "domain": "macro",
+    "published_at": "2026-07-29",
+    "synthetic": true,
+    "text": "Illustrative real gross domestic product increased at a 2.1 percent annualized rate in the second quarter of 2026. Consumer spending and business investment contributed to growth, while residential investment declined. Inventory accumulation added modestly to the headline rate and imports increased."
+  },
+  {
+    "source_id": "NST-ESG-2025-EMISSIONS",
+    "title": "Northstar Technologies 2025 Sustainability Report — Emissions",
+    "domain": "esg",
+    "published_at": "2026-04-11",
+    "synthetic": true,
+    "text": "Northstar reduced combined Scope 1 and Scope 2 market-based greenhouse-gas emissions by 14 percent from its 2022 baseline. Renewable electricity supplied 72 percent of data-center operations. Scope 3 emissions increased because cloud hardware purchases and supplier logistics grew, and the company introduced supplier engagement targets to address the increase."
+  },
+  {
+    "source_id": "NST-ESG-2025-GOV",
+    "title": "Northstar Technologies 2025 Sustainability Report — Governance",
+    "domain": "esg",
+    "published_at": "2026-04-11",
+    "synthetic": true,
+    "text": "The board risk committee reviews climate, cybersecurity, and responsible-AI risks each quarter. Northstar established an internal model-risk council and requires human approval for high-impact automated decisions. The company reported that 91 percent of employees completed annual data-ethics and security training."
+  },
+  {
+    "source_id": "HARBOR-ESG-2025",
+    "title": "Harbor Industrial Systems 2025 Sustainability Update",
+    "domain": "esg",
+    "published_at": "2026-03-26",
+    "synthetic": true,
+    "text": "Harbor reduced water withdrawal per unit of production by 9 percent and sourced 48 percent of electricity from renewable contracts. Recordable workplace incidents declined, but two major suppliers did not complete the updated human-rights assessment. Management plans targeted supplier audits during 2026."
+  },
+  {
+    "source_id": "ESG-STANDARD-2026",
+    "title": "Illustrative Enterprise ESG Disclosure Guidance",
+    "domain": "esg",
+    "published_at": "2026-01-15",
+    "synthetic": true,
+    "text": "Decision-useful sustainability reporting should identify organizational boundaries, calculation methods, baseline years, material assumptions, and whether metrics received external assurance. Comparable disclosures distinguish absolute emissions from intensity metrics and explain acquisitions, divestitures, or methodology changes that affect trends."
+  }
+]

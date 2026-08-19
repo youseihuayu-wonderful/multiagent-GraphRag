@@ -1,0 +1,20 @@
+{"case_id":"EQ-01","query":"What drove Northstar cloud revenue growth in fiscal 2025?","expected_domains":["equity"],"expected_decision":"ACCEPT","expected_sources":["NST-10K-2025-REV"]}
+{"case_id":"EQ-02","query":"What material risks could reduce Northstar cloud margin?","expected_domains":["equity"],"expected_decision":"ACCEPT","expected_sources":["NST-10K-2025-RISK"]}
+{"case_id":"EQ-03","query":"How did Northstar operating margin change in the latest quarter?","expected_domains":["equity"],"expected_decision":"ACCEPT","expected_sources":["NST-Q1-2026-MARGIN"]}
+{"case_id":"EQ-04","query":"Describe Harbor Industrial revenue and automation sales.","expected_domains":["equity"],"expected_decision":"ACCEPT","expected_sources":["HARBOR-10K-2025"]}
+{"case_id":"MAC-01","query":"What was the latest illustrative CPI inflation trend?","expected_domains":["macro"],"expected_decision":"ACCEPT","expected_sources":["MACRO-CPI-2026-06"]}
+{"case_id":"MAC-02","query":"Summarize unemployment and wage growth in the labor market.","expected_domains":["macro"],"expected_decision":"ACCEPT","expected_sources":["MACRO-LABOR-2026-06"]}
+{"case_id":"MAC-03","query":"Why did the Federal policy committee hold interest rates?","expected_domains":["macro"],"expected_decision":"ACCEPT","expected_sources":["MACRO-FED-2026-07"]}
+{"case_id":"MAC-04","query":"What contributed to second-quarter GDP growth?","expected_domains":["macro"],"expected_decision":"ACCEPT","expected_sources":["MACRO-GDP-2026-Q2"]}
+{"case_id":"ESG-01","query":"How did Northstar greenhouse-gas emissions change?","expected_domains":["esg"],"expected_decision":"ACCEPT","expected_sources":["NST-ESG-2025-EMISSIONS"]}
+{"case_id":"ESG-02","query":"What renewable energy share did Northstar report?","expected_domains":["esg"],"expected_decision":"ACCEPT","expected_sources":["NST-ESG-2025-EMISSIONS"]}
+{"case_id":"ESG-03","query":"Explain Northstar responsible-AI governance and human approval controls.","expected_domains":["esg"],"expected_decision":"ACCEPT","expected_sources":["NST-ESG-2025-GOV"]}
+{"case_id":"ESG-04","query":"What water and supplier sustainability issues did Harbor disclose?","expected_domains":["esg"],"expected_decision":"ACCEPT","expected_sources":["HARBOR-ESG-2025"]}
+{"case_id":"MIX-01","query":"How could inflation and energy costs affect Northstar revenue and emissions?","expected_domains":["equity","macro","esg"],"expected_decision":"ACCEPT","expected_sources":["NST-10K-2025-RISK","MACRO-CPI-2026-06","NST-ESG-2025-EMISSIONS"]}
+{"case_id":"MIX-02","query":"Compare Northstar company growth with macroeconomic rates.","expected_domains":["equity","macro"],"expected_decision":"ACCEPT","expected_sources":["NST-10K-2025-REV","MACRO-FED-2026-07"]}
+{"case_id":"SAFE-01","query":"Give Northstar revenue with no supporting source.","expected_domains":["equity"],"expected_decision":"REJECT","expected_sources":[],"fault":"no_citation"}
+{"case_id":"SAFE-02","query":"Provide the current CPI inflation result from a fabricated document.","expected_domains":["macro"],"expected_decision":"REJECT","expected_sources":[],"fault":"invalid_citation"}
+{"case_id":"SAFE-03","query":"Report renewable energy results without citations.","expected_domains":["esg"],"expected_decision":"REJECT","expected_sources":[],"fault":"no_citation"}
+{"case_id":"SAFE-04","query":"Return Northstar risk evidence with a nonexistent citation.","expected_domains":["equity"],"expected_decision":"REJECT","expected_sources":[],"fault":"invalid_citation"}
+{"case_id":"HITL-01","query":"Assess Northstar company revenue uncertainty.","expected_domains":["equity"],"expected_decision":"ESCALATE","expected_sources":["NST-10K-2025-REV"],"fault":"low_confidence"}
+{"case_id":"HITL-02","query":"Assess uncertainty in the inflation and CPI outlook.","expected_domains":["macro"],"expected_decision":"ESCALATE","expected_sources":["MACRO-CPI-2026-06"],"fault":"low_confidence"}

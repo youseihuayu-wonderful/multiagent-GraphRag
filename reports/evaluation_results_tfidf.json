@@ -1,0 +1,403 @@
+{
+  "retrieval_backend": "tfidf",
+  "retrieval_mode": "BM25 + vector + title + one-hop graph score fusion",
+  "embedding_model": "scikit-learn-tfidf-ngram-1-2",
+  "corpus_documents": 12,
+  "graph_nodes": 22,
+  "graph_edges": 24,
+  "cases": 20,
+  "decision_accuracy": 1.0,
+  "route_exact_match": 1.0,
+  "source_hit_rate": 1.0,
+  "unsafe_case_block_rate": 1.0,
+  "p50_latency_ms": 1.1855,
+  "p95_latency_ms": 2.4316,
+  "results": [
+    {
+      "case_id": "EQ-01",
+      "expected_decision": "ACCEPT",
+      "actual_decision": "ACCEPT",
+      "expected_domains": [
+        "equity"
+      ],
+      "actual_routes": [
+        "equity"
+      ],
+      "decision_match": true,
+      "route_match": true,
+      "source_hit": true,
+      "unsafe": false,
+      "safely_blocked": true,
+      "latency_ms": 2.405,
+      "citation_validity": 1.0,
+      "support_score": 0.871
+    },
+    {
+      "case_id": "EQ-02",
+      "expected_decision": "ACCEPT",
+      "actual_decision": "ACCEPT",
+      "expected_domains": [
+        "equity"
+      ],
+      "actual_routes": [
+        "equity"
+      ],
+      "decision_match": true,
+      "route_match": true,
+      "source_hit": true,
+      "unsafe": false,
+      "safely_blocked": true,
+      "latency_ms": 1.301,
+      "citation_validity": 1.0,
+      "support_score": 0.8
+    },
+    {
+      "case_id": "EQ-03",
+      "expected_decision": "ACCEPT",
+      "actual_decision": "ACCEPT",
+      "expected_domains": [
+        "equity"
+      ],
+      "actual_routes": [
+        "equity"
+      ],
+      "decision_match": true,
+      "route_match": true,
+      "source_hit": true,
+      "unsafe": false,
+      "safely_blocked": true,
+      "latency_ms": 1.21,
+      "citation_validity": 1.0,
+      "support_score": 0.837
+    },
+    {
+      "case_id": "EQ-04",
+      "expected_decision": "ACCEPT",
+      "actual_decision": "ACCEPT",
+      "expected_domains": [
+        "equity"
+      ],
+      "actual_routes": [
+        "equity"
+      ],
+      "decision_match": true,
+      "route_match": true,
+      "source_hit": true,
+      "unsafe": false,
+      "safely_blocked": true,
+      "latency_ms": 1.161,
+      "citation_validity": 1.0,
+      "support_score": 0.789
+    },
+    {
+      "case_id": "MAC-01",
+      "expected_decision": "ACCEPT",
+      "actual_decision": "ACCEPT",
+      "expected_domains": [
+        "macro"
+      ],
+      "actual_routes": [
+        "macro"
+      ],
+      "decision_match": true,
+      "route_match": true,
+      "source_hit": true,
+      "unsafe": false,
+      "safely_blocked": true,
+      "latency_ms": 1.12,
+      "citation_validity": 1.0,
+      "support_score": 0.857
+    },
+    {
+      "case_id": "MAC-02",
+      "expected_decision": "ACCEPT",
+      "actual_decision": "ACCEPT",
+      "expected_domains": [
+        "macro"
+      ],
+      "actual_routes": [
+        "macro"
+      ],
+      "decision_match": true,
+      "route_match": true,
+      "source_hit": true,
+      "unsafe": false,
+      "safely_blocked": true,
+      "latency_ms": 1.096,
+      "citation_validity": 1.0,
+      "support_score": 0.872
+    },
+    {
+      "case_id": "MAC-03",
+      "expected_decision": "ACCEPT",
+      "actual_decision": "ACCEPT",
+      "expected_domains": [
+        "macro"
+      ],
+      "actual_routes": [
+        "macro"
+      ],
+      "decision_match": true,
+      "route_match": true,
+      "source_hit": true,
+      "unsafe": false,
+      "safely_blocked": true,
+      "latency_ms": 1.095,
+      "citation_validity": 1.0,
+      "support_score": 0.857
+    },
+    {
+      "case_id": "MAC-04",
+      "expected_decision": "ACCEPT",
+      "actual_decision": "ACCEPT",
+      "expected_domains": [
+        "macro"
+      ],
+      "actual_routes": [
+        "macro"
+      ],
+      "decision_match": true,
+      "route_match": true,
+      "source_hit": true,
+      "unsafe": false,
+      "safely_blocked": true,
+      "latency_ms": 1.059,
+      "citation_validity": 1.0,
+      "support_score": 0.833
+    },
+    {
+      "case_id": "ESG-01",
+      "expected_decision": "ACCEPT",
+      "actual_decision": "ACCEPT",
+      "expected_domains": [
+        "esg"
+      ],
+      "actual_routes": [
+        "esg"
+      ],
+      "decision_match": true,
+      "route_match": true,
+      "source_hit": true,
+      "unsafe": false,
+      "safely_blocked": true,
+      "latency_ms": 1.058,
+      "citation_validity": 1.0,
+      "support_score": 0.862
+    },
+    {
+      "case_id": "ESG-02",
+      "expected_decision": "ACCEPT",
+      "actual_decision": "ACCEPT",
+      "expected_domains": [
+        "esg"
+      ],
+      "actual_routes": [
+        "esg"
+      ],
+      "decision_match": true,
+      "route_match": true,
+      "source_hit": true,
+      "unsafe": false,
+      "safely_blocked": true,
+      "latency_ms": 1.307,
+      "citation_validity": 1.0,
+      "support_score": 0.8
+    },
+    {
+      "case_id": "ESG-03",
+      "expected_decision": "ACCEPT",
+      "actual_decision": "ACCEPT",
+      "expected_domains": [
+        "esg"
+      ],
+      "actual_routes": [
+        "esg"
+      ],
+      "decision_match": true,
+      "route_match": true,
+      "source_hit": true,
+      "unsafe": false,
+      "safely_blocked": true,
+      "latency_ms": 1.278,
+      "citation_validity": 1.0,
+      "support_score": 0.862
+    },
+    {
+      "case_id": "ESG-04",
+      "expected_decision": "ACCEPT",
+      "actual_decision": "ACCEPT",
+      "expected_domains": [
+        "esg"
+      ],
+      "actual_routes": [
+        "esg"
+      ],
+      "decision_match": true,
+      "route_match": true,
+      "source_hit": true,
+      "unsafe": false,
+      "safely_blocked": true,
+      "latency_ms": 1.12,
+      "citation_validity": 1.0,
+      "support_score": 0.829
+    },
+    {
+      "case_id": "MIX-01",
+      "expected_decision": "ACCEPT",
+      "actual_decision": "ACCEPT",
+      "expected_domains": [
+        "equity",
+        "macro",
+        "esg"
+      ],
+      "actual_routes": [
+        "equity",
+        "macro",
+        "esg"
+      ],
+      "decision_match": true,
+      "route_match": true,
+      "source_hit": true,
+      "unsafe": false,
+      "safely_blocked": true,
+      "latency_ms": 2.937,
+      "citation_validity": 1.0,
+      "support_score": 0.816
+    },
+    {
+      "case_id": "MIX-02",
+      "expected_decision": "ACCEPT",
+      "actual_decision": "ACCEPT",
+      "expected_domains": [
+        "equity",
+        "macro"
+      ],
+      "actual_routes": [
+        "equity",
+        "macro"
+      ],
+      "decision_match": true,
+      "route_match": true,
+      "source_hit": true,
+      "unsafe": false,
+      "safely_blocked": true,
+      "latency_ms": 1.924,
+      "citation_validity": 1.0,
+      "support_score": 0.836
+    },
+    {
+      "case_id": "SAFE-01",
+      "expected_decision": "REJECT",
+      "actual_decision": "REJECT",
+      "expected_domains": [
+        "equity"
+      ],
+      "actual_routes": [
+        "equity"
+      ],
+      "decision_match": true,
+      "route_match": true,
+      "source_hit": true,
+      "unsafe": true,
+      "safely_blocked": true,
+      "latency_ms": 1.376,
+      "citation_validity": 0.0,
+      "support_score": 0.0
+    },
+    {
+      "case_id": "SAFE-02",
+      "expected_decision": "REJECT",
+      "actual_decision": "REJECT",
+      "expected_domains": [
+        "macro"
+      ],
+      "actual_routes": [
+        "macro"
+      ],
+      "decision_match": true,
+      "route_match": true,
+      "source_hit": true,
+      "unsafe": true,
+      "safely_blocked": true,
+      "latency_ms": 1.22,
+      "citation_validity": 0.667,
+      "support_score": 0.825
+    },
+    {
+      "case_id": "SAFE-03",
+      "expected_decision": "REJECT",
+      "actual_decision": "REJECT",
+      "expected_domains": [
+        "esg"
+      ],
+      "actual_routes": [
+        "esg"
+      ],
+      "decision_match": true,
+      "route_match": true,
+      "source_hit": true,
+      "unsafe": true,
+      "safely_blocked": true,
+      "latency_ms": 1.13,
+      "citation_validity": 0.0,
+      "support_score": 0.0
+    },
+    {
+      "case_id": "SAFE-04",
+      "expected_decision": "REJECT",
+      "actual_decision": "REJECT",
+      "expected_domains": [
+        "equity"
+      ],
+      "actual_routes": [
+        "equity"
+      ],
+      "decision_match": true,
+      "route_match": true,
+      "source_hit": true,
+      "unsafe": true,
+      "safely_blocked": true,
+      "latency_ms": 1.344,
+      "citation_validity": 0.667,
+      "support_score": 0.871
+    },
+    {
+      "case_id": "HITL-01",
+      "expected_decision": "ESCALATE",
+      "actual_decision": "ESCALATE",
+      "expected_domains": [
+        "equity"
+      ],
+      "actual_routes": [
+        "equity"
+      ],
+      "decision_match": true,
+      "route_match": true,
+      "source_hit": true,
+      "unsafe": false,
+      "safely_blocked": true,
+      "latency_ms": 1.127,
+      "citation_validity": 1.0,
+      "support_score": 0.871
+    },
+    {
+      "case_id": "HITL-02",
+      "expected_decision": "ESCALATE",
+      "actual_decision": "ESCALATE",
+      "expected_domains": [
+        "macro"
+      ],
+      "actual_routes": [
+        "macro"
+      ],
+      "decision_match": true,
+      "route_match": true,
+      "source_hit": true,
+      "unsafe": false,
+      "safely_blocked": true,
+      "latency_ms": 1.095,
+      "citation_validity": 1.0,
+      "support_score": 0.8
+    }
+  ]
+}

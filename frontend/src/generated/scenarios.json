@@ -1,0 +1,2308 @@
+{
+  "generated_at": "2026-08-14T19:38:52.221425+00:00",
+  "backend": "ollama",
+  "retrieval_mode": "BM25 + embeddings + one-hop knowledge-graph expansion",
+  "embedding_model": "qwen3-embedding:latest",
+  "scenarios": [
+    {
+      "id": "grounded-equity",
+      "label": "Grounded equity",
+      "description": "A normal single-domain path with valid citations and an ACCEPT decision.",
+      "query": "What drove Northstar cloud revenue growth and what risks could affect margin?",
+      "fault": "none",
+      "concepts": [
+        "entity linking",
+        "one-hop GraphRAG",
+        "score fusion",
+        "citation grounding"
+      ],
+      "response": {
+        "query": "What drove Northstar cloud revenue growth and what risks could affect margin?",
+        "retrieval_backend": "ollama",
+        "retrieval_mode": "graphrag-hybrid",
+        "routes": [
+          "equity"
+        ],
+        "answer": "Northstar Technologies 2025 Annual Report \u2014 Risk Factors: Northstar identified customer concentration, cloud infrastructure costs, cybersecurity incidents, and competition as material risks. Northstar Technologies 2025 Annual Report \u2014 Revenue: Cloud platform revenue grew 31 percent and represented 46 percent of total revenue.",
+        "agent_outputs": [
+          {
+            "source_agent": "equity",
+            "answer": "Northstar Technologies 2025 Annual Report \u2014 Risk Factors: Northstar identified customer concentration, cloud infrastructure costs, cybersecurity incidents, and competition as material risks. Northstar Technologies 2025 Annual Report \u2014 Revenue: Cloud platform revenue grew 31 percent and represented 46 percent of total revenue.",
+            "citations": [
+              {
+                "source_id": "NST-10K-2025-RISK",
+                "quote": "Northstar identified customer concentration, cloud infrastructure costs, cybersecurity incidents, and competition as material risks.",
+                "relevance_score": 0.8256950909090908
+              },
+              {
+                "source_id": "NST-10K-2025-REV",
+                "quote": "Cloud platform revenue grew 31 percent and represented 46 percent of total revenue.",
+                "relevance_score": 0.6785521847444629
+              },
+              {
+                "source_id": "NST-Q1-2026-MARGIN",
+                "quote": "First-quarter revenue reached $2.25 billion and operating margin increased to 19.4 percent from 16.8 percent one year earlier.",
+                "relevance_score": 0.6487956310128727
+              }
+            ],
+            "confidence": 0.886701809090909,
+            "data_quality": 0.95
+          }
+        ],
+        "trust_report": {
+          "decision": "ACCEPT",
+          "routing_validity": 1.0,
+          "citation_coverage": 1.0,
+          "citation_validity": 1.0,
+          "support_score": 0.8076923076923077,
+          "average_confidence": 0.886701809090909,
+          "average_data_quality": 0.95,
+          "reasons": [
+            "All boundary, citation, routing, and evidence-support checks passed."
+          ]
+        },
+        "audit_trail": [
+          {
+            "stage": "router",
+            "status": "PASS",
+            "detail": "Selected routes: equity; scores={'equity': 1.0, 'macro': 0.0, 'esg': 0.0}",
+            "timestamp": "2026-08-14T19:38:52.223+00:00"
+          },
+          {
+            "stage": "agent:equity",
+            "status": "PASS",
+            "detail": "Schema gate passed with 3 citations.",
+            "timestamp": "2026-08-14T19:38:52.365+00:00"
+          },
+          {
+            "stage": "aggregation",
+            "status": "PASS",
+            "detail": "Aggregated 1 valid agent outputs.",
+            "timestamp": "2026-08-14T19:38:52.365+00:00"
+          },
+          {
+            "stage": "trust_evaluator",
+            "status": "PASS",
+            "detail": "Decision=ACCEPT; reasons=All boundary, citation, routing, and evidence-support checks passed.",
+            "timestamp": "2026-08-14T19:38:52.366+00:00"
+          }
+        ],
+        "trace_steps": [
+          {
+            "step_id": "01-router",
+            "node": "router",
+            "title": "Route and decompose query",
+            "purpose": "Select only the financial domains needed for this request.",
+            "status": "PASS",
+            "duration_ms": 0.028708018362522125,
+            "calls": [
+              "tokenize(query)",
+              "route_query(query)",
+              "LangGraph Send(...)"
+            ],
+            "input": {
+              "query": "What drove Northstar cloud revenue growth and what risks could affect margin?"
+            },
+            "output": {
+              "selected_routes": [
+                "equity"
+              ],
+              "domain_scores": {
+                "equity": 1.0,
+                "macro": 0.0,
+                "esg": 0.0
+              }
+            },
+            "checks": [
+              "Output routes must be a subset of equity, macro, and esg."
+            ]
+          },
+          {
+            "step_id": "02-agent-equity",
+            "node": "agent:equity",
+            "title": "Equity GraphRAG agent",
+            "purpose": "Link query entities, traverse the knowledge graph, fuse graph and text scores, construct citations, and enforce the agent contract.",
+            "status": "PASS",
+            "duration_ms": 141.61716599483043,
+            "calls": [
+              "FinancialKnowledgeGraph.expand(query, domain)",
+              "BM25Index.score(query)",
+              "ollama.embed(query)",
+              "cosine_similarity(query, documents)",
+              "weighted_fusion(bm25, vector, title, graph)",
+              "AgentOutput.model_validate(raw_output)"
+            ],
+            "input": {
+              "query": "What drove Northstar cloud revenue growth and what risks could affect margin?",
+              "domain": "equity",
+              "top_k": 3,
+              "fault_injection": "none"
+            },
+            "output": {
+              "retrieval_backend": "ollama",
+              "score_fusion": {
+                "bm25": 0.38,
+                "vector": 0.32,
+                "title": 0.12,
+                "graph": 0.18
+              },
+              "graph_context": {
+                "seed_entities": [
+                  {
+                    "id": "metric:margin",
+                    "label": "Operating margin",
+                    "type": "metric",
+                    "score": 1.0
+                  },
+                  {
+                    "id": "metric:revenue",
+                    "label": "Revenue growth",
+                    "type": "metric",
+                    "score": 1.0
+                  },
+                  {
+                    "id": "org:northstar",
+                    "label": "Northstar Technologies",
+                    "type": "organization",
+                    "score": 1.0
+                  },
+                  {
+                    "id": "product:cloud",
+                    "label": "Cloud platform",
+                    "type": "product",
+                    "score": 1.0
+                  }
+                ],
+                "expanded_entities": [
+                  {
+                    "id": "market:enterprise",
+                    "label": "Enterprise technology demand",
+                    "type": "market",
+                    "score": 0.55
+                  },
+                  {
+                    "id": "metric:rpo",
+                    "label": "Remaining performance obligations",
+                    "type": "metric",
+                    "score": 0.55
+                  },
+                  {
+                    "id": "risk:compute",
+                    "label": "Cloud infrastructure costs",
+                    "type": "risk",
+                    "score": 0.55
+                  },
+                  {
+                    "id": "risk:concentration",
+                    "label": "Customer concentration",
+                    "type": "risk",
+                    "score": 0.55
+                  },
+                  {
+                    "id": "risk:cyber",
+                    "label": "Cybersecurity incidents",
+                    "type": "risk",
+                    "score": 0.55
+                  }
+                ],
+                "paths": [
+                  {
+                    "source": "org:northstar",
+                    "source_label": "Northstar Technologies",
+                    "relation": "operates",
+                    "target": "product:cloud",
+                    "target_label": "Cloud platform",
+                    "hop": 1,
+                    "score": 0.9,
+                    "source_ids": [
+                      "NST-10K-2025-REV",
+                      "NST-Q1-2026-MARGIN"
+                    ]
+                  },
+                  {
+                    "source": "product:cloud",
+                    "source_label": "Cloud platform",
+                    "relation": "contributes_to",
+                    "target": "metric:margin",
+                    "target_label": "Operating margin",
+                    "hop": 1,
+                    "score": 0.9,
+                    "source_ids": [
+                      "NST-Q1-2026-MARGIN"
+                    ]
+                  },
+                  {
+                    "source": "product:cloud",
+                    "source_label": "Cloud platform",
+                    "relation": "drives",
+                    "target": "metric:revenue",
+                    "target_label": "Revenue growth",
+                    "hop": 1,
+                    "score": 0.9,
+                    "source_ids": [
+                      "NST-10K-2025-REV"
+                    ]
+                  },
+                  {
+                    "source": "market:enterprise",
+                    "source_label": "Enterprise technology demand",
+                    "relation": "creates_demand_for",
+                    "target": "product:cloud",
+                    "target_label": "Cloud platform",
+                    "hop": 1,
+                    "score": 0.55,
+                    "source_ids": [
+                      "NST-10K-2025-REV",
+                      "NST-Q1-2026-MARGIN"
+                    ]
+                  },
+                  {
+                    "source": "metric:rpo",
+                    "source_label": "Remaining performance obligations",
+                    "relation": "signals_future",
+                    "target": "metric:revenue",
+                    "target_label": "Revenue growth",
+                    "hop": 1,
+                    "score": 0.55,
+                    "source_ids": [
+                      "NST-Q1-2026-MARGIN"
+                    ]
+                  },
+                  {
+                    "source": "org:northstar",
+                    "source_label": "Northstar Technologies",
+                    "relation": "exposed_to",
+                    "target": "risk:concentration",
+                    "target_label": "Customer concentration",
+                    "hop": 1,
+                    "score": 0.55,
+                    "source_ids": [
+                      "NST-10K-2025-RISK"
+                    ]
+                  },
+                  {
+                    "source": "org:northstar",
+                    "source_label": "Northstar Technologies",
+                    "relation": "exposed_to",
+                    "target": "risk:cyber",
+                    "target_label": "Cybersecurity incidents",
+                    "hop": 1,
+                    "score": 0.55,
+                    "source_ids": [
+                      "NST-10K-2025-RISK"
+                    ]
+                  },
+                  {
+                    "source": "risk:compute",
+                    "source_label": "Cloud infrastructure costs",
+                    "relation": "pressures",
+                    "target": "metric:margin",
+                    "target_label": "Operating margin",
+                    "hop": 1,
+                    "score": 0.55,
+                    "source_ids": [
+                      "NST-10K-2025-RISK",
+                      "NST-Q1-2026-MARGIN"
+                    ]
+                  },
+                  {
+                    "source": "risk:concentration",
+                    "source_label": "Customer concentration",
+                    "relation": "threatens",
+                    "target": "metric:revenue",
+                    "target_label": "Revenue growth",
+                    "hop": 1,
+                    "score": 0.55,
+                    "source_ids": [
+                      "NST-10K-2025-RISK"
+                    ]
+                  }
+                ],
+                "document_boosts": {
+                  "NST-Q1-2026-MARGIN": 1.0,
+                  "NST-10K-2025-RISK": 0.6377,
+                  "NST-10K-2025-REV": 0.6812
+                }
+              },
+              "candidates": [
+                {
+                  "rank": 1,
+                  "source_id": "NST-10K-2025-RISK",
+                  "title": "Northstar Technologies 2025 Annual Report \u2014 Risk Factors",
+                  "lexical_score": 1.0,
+                  "vector_score": 1.0,
+                  "title_score": 0.0909,
+                  "graph_score": 0.6377,
+                  "combined_score": 0.8257,
+                  "selected_quote": "Northstar identified customer concentration, cloud infrastructure costs, cybersecurity incidents, and competition as material risks."
+                },
+                {
+                  "rank": 2,
+                  "source_id": "NST-10K-2025-REV",
+                  "title": "Northstar Technologies 2025 Annual Report \u2014 Revenue",
+                  "lexical_score": 0.5876,
+                  "vector_score": 0.9714,
+                  "title_score": 0.1818,
+                  "graph_score": 0.6812,
+                  "combined_score": 0.6786,
+                  "selected_quote": "Cloud platform revenue grew 31 percent and represented 46 percent of total revenue."
+                },
+                {
+                  "rank": 3,
+                  "source_id": "NST-Q1-2026-MARGIN",
+                  "title": "Northstar Technologies Q1 2026 Earnings Release",
+                  "lexical_score": 0.4841,
+                  "vector_score": 0.856,
+                  "title_score": 0.0909,
+                  "graph_score": 1.0,
+                  "combined_score": 0.6488,
+                  "selected_quote": "First-quarter revenue reached $2.25 billion and operating margin increased to 19.4 percent from 16.8 percent one year earlier."
+                }
+              ],
+              "raw_agent_output": {
+                "source_agent": "equity",
+                "answer": "Northstar Technologies 2025 Annual Report \u2014 Risk Factors: Northstar identified customer concentration, cloud infrastructure costs, cybersecurity incidents, and competition as material risks. Northstar Technologies 2025 Annual Report \u2014 Revenue: Cloud platform revenue grew 31 percent and represented 46 percent of total revenue.",
+                "citations": [
+                  {
+                    "source_id": "NST-10K-2025-RISK",
+                    "quote": "Northstar identified customer concentration, cloud infrastructure costs, cybersecurity incidents, and competition as material risks.",
+                    "relevance_score": 0.8256950909090908
+                  },
+                  {
+                    "source_id": "NST-10K-2025-REV",
+                    "quote": "Cloud platform revenue grew 31 percent and represented 46 percent of total revenue.",
+                    "relevance_score": 0.6785521847444629
+                  },
+                  {
+                    "source_id": "NST-Q1-2026-MARGIN",
+                    "quote": "First-quarter revenue reached $2.25 billion and operating margin increased to 19.4 percent from 16.8 percent one year earlier.",
+                    "relevance_score": 0.6487956310128727
+                  }
+                ],
+                "confidence": 0.886701809090909,
+                "data_quality": 0.95
+              },
+              "injected_fault": "none",
+              "schema_gate": {
+                "passed": true,
+                "required_fields": [
+                  "source_agent",
+                  "answer",
+                  "citations[min_length=1]",
+                  "confidence[0..1]",
+                  "data_quality[0..1]"
+                ]
+              }
+            },
+            "checks": [
+              "citations must contain at least one item",
+              "citation source IDs must be unique",
+              "confidence and data_quality must be within [0, 1]",
+              "graph paths may reference only indexed source IDs"
+            ]
+          },
+          {
+            "step_id": "03-aggregation",
+            "node": "aggregation",
+            "title": "Evidence-preserving aggregation",
+            "purpose": "Merge valid agent outputs without dropping source attribution.",
+            "status": "PASS",
+            "duration_ms": 0.029749935492873192,
+            "calls": [
+              "AgentOutput.model_validate(...) for each branch",
+              "map-reduce merge"
+            ],
+            "input": {
+              "valid_agent_count": 1,
+              "agents": [
+                "equity"
+              ],
+              "error_count": 0
+            },
+            "output": {
+              "answer_created": true,
+              "answer_characters": 327,
+              "preserved_citations": 3
+            },
+            "checks": [
+              "Only schema-valid outputs may enter aggregation."
+            ]
+          },
+          {
+            "step_id": "04-trust-evaluator",
+            "node": "trust_evaluator",
+            "title": "Runtime trust decision",
+            "purpose": "Independently validate routing, citations, support, and confidence.",
+            "status": "PASS",
+            "duration_ms": 0.1318750437349081,
+            "calls": [
+              "Corpus.validate_quote(source_id, quote)",
+              "token_support(answer, citations)",
+              "TrustEvaluator.evaluate(...) behavior policy"
+            ],
+            "input": {
+              "approved_routes": [
+                "equity"
+              ],
+              "agent_output_count": 1,
+              "boundary_errors": []
+            },
+            "output": {
+              "decision": "ACCEPT",
+              "routing_validity": 1.0,
+              "citation_coverage": 1.0,
+              "citation_validity": 1.0,
+              "support_score": 0.8076923076923077,
+              "average_confidence": 0.886701809090909,
+              "average_data_quality": 0.95,
+              "reasons": [
+                "All boundary, citation, routing, and evidence-support checks passed."
+              ]
+            },
+            "checks": [
+              "routing_validity == 1.0",
+              "citation_coverage == 1.0",
+              "citation_validity == 1.0",
+              "confidence, quality, and support clear escalation thresholds"
+            ]
+          }
+        ],
+        "errors": [],
+        "latency_ms": 144.95737489778548
+      }
+    },
+    {
+      "id": "cross-domain",
+      "label": "Cross-domain fan-out",
+      "description": "Router dispatches equity, macro, and ESG agents through LangGraph Send.",
+      "query": "How could inflation and energy costs affect Northstar revenue and emissions?",
+      "fault": "none",
+      "concepts": [
+        "dynamic routing",
+        "parallel GraphRAG agents",
+        "map-reduce aggregation"
+      ],
+      "response": {
+        "query": "How could inflation and energy costs affect Northstar revenue and emissions?",
+        "retrieval_backend": "ollama",
+        "retrieval_mode": "graphrag-hybrid",
+        "routes": [
+          "equity",
+          "macro",
+          "esg"
+        ],
+        "answer": "Northstar Technologies 2025 Annual Report \u2014 Risk Factors: Northstar identified customer concentration, cloud infrastructure costs, cybersecurity incidents, and competition as material risks. Northstar Technologies 2025 Annual Report \u2014 Revenue: Northstar Technologies reported fiscal 2025 revenue of $8.4 billion, an increase of 18 percent from the prior year.\n\nIllustrative U.S. CPI Consumer Price Update \u2014 June 2026: Shelter inflation moderated, energy prices declined, and core services remained the largest contributor to monthly inflation. Illustrative Monetary Policy Summary \u2014 July 2026: The policy committee maintained the benchmark interest-rate range and emphasized that future decisions would depend on inflation, employment, and financial conditions.\n\nNorthstar Technologies 2025 Sustainability Report \u2014 Emissions: Northstar reduced combined Scope 1 and Scope 2 market-based greenhouse-gas emissions by 14 percent from its 2022 baseline. Northstar Technologies 2025 Sustainability Report \u2014 Governance: Northstar established an internal model-risk council and requires human approval for high-impact automated decisions.",
+        "agent_outputs": [
+          {
+            "source_agent": "equity",
+            "answer": "Northstar Technologies 2025 Annual Report \u2014 Risk Factors: Northstar identified customer concentration, cloud infrastructure costs, cybersecurity incidents, and competition as material risks. Northstar Technologies 2025 Annual Report \u2014 Revenue: Northstar Technologies reported fiscal 2025 revenue of $8.4 billion, an increase of 18 percent from the prior year.",
+            "citations": [
+              {
+                "source_id": "NST-10K-2025-RISK",
+                "quote": "Northstar identified customer concentration, cloud infrastructure costs, cybersecurity incidents, and competition as material risks.",
+                "relevance_score": 0.8790204569102917
+              },
+              {
+                "source_id": "NST-10K-2025-REV",
+                "quote": "Northstar Technologies reported fiscal 2025 revenue of $8.4 billion, an increase of 18 percent from the prior year.",
+                "relevance_score": 0.5810987957491953
+              },
+              {
+                "source_id": "NST-Q1-2026-MARGIN",
+                "quote": "First-quarter revenue reached $2.25 billion and operating margin increased to 19.4 percent from 16.8 percent one year earlier.",
+                "relevance_score": 0.5713205959505787
+              }
+            ],
+            "confidence": 0.9213632969916896,
+            "data_quality": 0.95
+          },
+          {
+            "source_agent": "macro",
+            "answer": "Illustrative U.S. CPI Consumer Price Update \u2014 June 2026: Shelter inflation moderated, energy prices declined, and core services remained the largest contributor to monthly inflation. Illustrative Monetary Policy Summary \u2014 July 2026: The policy committee maintained the benchmark interest-rate range and emphasized that future decisions would depend on inflation, employment, and financial conditions.",
+            "citations": [
+              {
+                "source_id": "MACRO-CPI-2026-06",
+                "quote": "Shelter inflation moderated, energy prices declined, and core services remained the largest contributor to monthly inflation.",
+                "relevance_score": 0.37607155070938114
+              },
+              {
+                "source_id": "MACRO-FED-2026-07",
+                "quote": "The policy committee maintained the benchmark interest-rate range and emphasized that future decisions would depend on inflation, employment, and financial conditions.",
+                "relevance_score": 0.25679717084126563
+              },
+              {
+                "source_id": "MACRO-LABOR-2026-06",
+                "quote": "Wage growth remained above consumer inflation but job openings declined in technology and professional services.",
+                "relevance_score": 0.24190075525123778
+              }
+            ],
+            "confidence": 0.5944465079610978,
+            "data_quality": 0.95
+          },
+          {
+            "source_agent": "esg",
+            "answer": "Northstar Technologies 2025 Sustainability Report \u2014 Emissions: Northstar reduced combined Scope 1 and Scope 2 market-based greenhouse-gas emissions by 14 percent from its 2022 baseline. Northstar Technologies 2025 Sustainability Report \u2014 Governance: Northstar established an internal model-risk council and requires human approval for high-impact automated decisions.",
+            "citations": [
+              {
+                "source_id": "NST-ESG-2025-EMISSIONS",
+                "quote": "Northstar reduced combined Scope 1 and Scope 2 market-based greenhouse-gas emissions by 14 percent from its 2022 baseline.",
+                "relevance_score": 0.7205670372779154
+              },
+              {
+                "source_id": "NST-ESG-2025-GOV",
+                "quote": "Northstar established an internal model-risk council and requires human approval for high-impact automated decisions.",
+                "relevance_score": 0.4689084374210995
+              },
+              {
+                "source_id": "ESG-STANDARD-2026",
+                "quote": "Comparable disclosures distinguish absolute emissions from intensity metrics and explain acquisitions, divestitures, or methodology changes that affect trends.",
+                "relevance_score": 0.38539818830944483
+              }
+            ],
+            "confidence": 0.818368574230645,
+            "data_quality": 0.95
+          }
+        ],
+        "trust_report": {
+          "decision": "ACCEPT",
+          "routing_validity": 1.0,
+          "citation_coverage": 1.0,
+          "citation_validity": 1.0,
+          "support_score": 0.8443455691509084,
+          "average_confidence": 0.7780594597278108,
+          "average_data_quality": 0.95,
+          "reasons": [
+            "All boundary, citation, routing, and evidence-support checks passed."
+          ]
+        },
+        "audit_trail": [
+          {
+            "stage": "router",
+            "status": "PASS",
+            "detail": "Selected routes: equity, macro, esg; scores={'equity': 0.25, 'macro': 0.25, 'esg': 0.5}",
+            "timestamp": "2026-08-14T19:38:52.366+00:00"
+          },
+          {
+            "stage": "agent:equity",
+            "status": "PASS",
+            "detail": "Schema gate passed with 3 citations.",
+            "timestamp": "2026-08-14T19:38:52.537+00:00"
+          },
+          {
+            "stage": "agent:macro",
+            "status": "PASS",
+            "detail": "Schema gate passed with 3 citations.",
+            "timestamp": "2026-08-14T19:38:52.522+00:00"
+          },
+          {
+            "stage": "agent:esg",
+            "status": "PASS",
+            "detail": "Schema gate passed with 3 citations.",
+            "timestamp": "2026-08-14T19:38:52.507+00:00"
+          },
+          {
+            "stage": "aggregation",
+            "status": "PASS",
+            "detail": "Aggregated 3 valid agent outputs.",
+            "timestamp": "2026-08-14T19:38:52.538+00:00"
+          },
+          {
+            "stage": "trust_evaluator",
+            "status": "PASS",
+            "detail": "Decision=ACCEPT; reasons=All boundary, citation, routing, and evidence-support checks passed.",
+            "timestamp": "2026-08-14T19:38:52.539+00:00"
+          }
+        ],
+        "trace_steps": [
+          {
+            "step_id": "01-router",
+            "node": "router",
+            "title": "Route and decompose query",
+            "purpose": "Select only the financial domains needed for this request.",
+            "status": "PASS",
+            "duration_ms": 0.018332968465983868,
+            "calls": [
+              "tokenize(query)",
+              "route_query(query)",
+              "LangGraph Send(...)"
+            ],
+            "input": {
+              "query": "How could inflation and energy costs affect Northstar revenue and emissions?"
+            },
+            "output": {
+              "selected_routes": [
+                "equity",
+                "macro",
+                "esg"
+              ],
+              "domain_scores": {
+                "equity": 0.25,
+                "macro": 0.25,
+                "esg": 0.5
+              }
+            },
+            "checks": [
+              "Output routes must be a subset of equity, macro, and esg."
+            ]
+          },
+          {
+            "step_id": "02-agent-equity",
+            "node": "agent:equity",
+            "title": "Equity GraphRAG agent",
+            "purpose": "Link query entities, traverse the knowledge graph, fuse graph and text scores, construct citations, and enforce the agent contract.",
+            "status": "PASS",
+            "duration_ms": 170.44204100966454,
+            "calls": [
+              "FinancialKnowledgeGraph.expand(query, domain)",
+              "BM25Index.score(query)",
+              "ollama.embed(query)",
+              "cosine_similarity(query, documents)",
+              "weighted_fusion(bm25, vector, title, graph)",
+              "AgentOutput.model_validate(raw_output)"
+            ],
+            "input": {
+              "query": "How could inflation and energy costs affect Northstar revenue and emissions?",
+              "domain": "equity",
+              "top_k": 3,
+              "fault_injection": "none"
+            },
+            "output": {
+              "retrieval_backend": "ollama",
+              "score_fusion": {
+                "bm25": 0.38,
+                "vector": 0.32,
+                "title": 0.12,
+                "graph": 0.18
+              },
+              "graph_context": {
+                "seed_entities": [
+                  {
+                    "id": "esg:emissions",
+                    "label": "Scope 1 and Scope 2 emissions",
+                    "type": "esg_metric",
+                    "score": 1.0
+                  },
+                  {
+                    "id": "metric:revenue",
+                    "label": "Revenue growth",
+                    "type": "metric",
+                    "score": 1.0
+                  },
+                  {
+                    "id": "org:northstar",
+                    "label": "Northstar Technologies",
+                    "type": "organization",
+                    "score": 1.0
+                  }
+                ],
+                "expanded_entities": [
+                  {
+                    "id": "metric:rpo",
+                    "label": "Remaining performance obligations",
+                    "type": "metric",
+                    "score": 0.55
+                  },
+                  {
+                    "id": "product:cloud",
+                    "label": "Cloud platform",
+                    "type": "product",
+                    "score": 0.55
+                  },
+                  {
+                    "id": "risk:concentration",
+                    "label": "Customer concentration",
+                    "type": "risk",
+                    "score": 0.55
+                  },
+                  {
+                    "id": "risk:cyber",
+                    "label": "Cybersecurity incidents",
+                    "type": "risk",
+                    "score": 0.55
+                  }
+                ],
+                "paths": [
+                  {
+                    "source": "metric:rpo",
+                    "source_label": "Remaining performance obligations",
+                    "relation": "signals_future",
+                    "target": "metric:revenue",
+                    "target_label": "Revenue growth",
+                    "hop": 1,
+                    "score": 0.55,
+                    "source_ids": [
+                      "NST-Q1-2026-MARGIN"
+                    ]
+                  },
+                  {
+                    "source": "org:northstar",
+                    "source_label": "Northstar Technologies",
+                    "relation": "operates",
+                    "target": "product:cloud",
+                    "target_label": "Cloud platform",
+                    "hop": 1,
+                    "score": 0.55,
+                    "source_ids": [
+                      "NST-10K-2025-REV",
+                      "NST-Q1-2026-MARGIN"
+                    ]
+                  },
+                  {
+                    "source": "org:northstar",
+                    "source_label": "Northstar Technologies",
+                    "relation": "exposed_to",
+                    "target": "risk:concentration",
+                    "target_label": "Customer concentration",
+                    "hop": 1,
+                    "score": 0.55,
+                    "source_ids": [
+                      "NST-10K-2025-RISK"
+                    ]
+                  },
+                  {
+                    "source": "org:northstar",
+                    "source_label": "Northstar Technologies",
+                    "relation": "exposed_to",
+                    "target": "risk:cyber",
+                    "target_label": "Cybersecurity incidents",
+                    "hop": 1,
+                    "score": 0.55,
+                    "source_ids": [
+                      "NST-10K-2025-RISK"
+                    ]
+                  },
+                  {
+                    "source": "product:cloud",
+                    "source_label": "Cloud platform",
+                    "relation": "drives",
+                    "target": "metric:revenue",
+                    "target_label": "Revenue growth",
+                    "hop": 1,
+                    "score": 0.55,
+                    "source_ids": [
+                      "NST-10K-2025-REV"
+                    ]
+                  },
+                  {
+                    "source": "risk:concentration",
+                    "source_label": "Customer concentration",
+                    "relation": "threatens",
+                    "target": "metric:revenue",
+                    "target_label": "Revenue growth",
+                    "hop": 1,
+                    "score": 0.55,
+                    "source_ids": [
+                      "NST-10K-2025-RISK"
+                    ]
+                  }
+                ],
+                "document_boosts": {
+                  "NST-10K-2025-REV": 0.6667,
+                  "NST-10K-2025-RISK": 1.0,
+                  "NST-Q1-2026-MARGIN": 0.6667
+                }
+              },
+              "candidates": [
+                {
+                  "rank": 1,
+                  "source_id": "NST-10K-2025-RISK",
+                  "title": "Northstar Technologies 2025 Annual Report \u2014 Risk Factors",
+                  "lexical_score": 1.0,
+                  "vector_score": 0.9594,
+                  "title_score": 0.1,
+                  "graph_score": 1.0,
+                  "combined_score": 0.879,
+                  "selected_quote": "Northstar identified customer concentration, cloud infrastructure costs, cybersecurity incidents, and competition as material risks."
+                },
+                {
+                  "rank": 2,
+                  "source_id": "NST-10K-2025-REV",
+                  "title": "Northstar Technologies 2025 Annual Report \u2014 Revenue",
+                  "lexical_score": 0.4044,
+                  "vector_score": 0.8857,
+                  "title_score": 0.2,
+                  "graph_score": 0.6667,
+                  "combined_score": 0.5811,
+                  "selected_quote": "Northstar Technologies reported fiscal 2025 revenue of $8.4 billion, an increase of 18 percent from the prior year."
+                },
+                {
+                  "rank": 3,
+                  "source_id": "NST-Q1-2026-MARGIN",
+                  "title": "Northstar Technologies Q1 2026 Earnings Release",
+                  "lexical_score": 0.4705,
+                  "vector_score": 0.8142,
+                  "title_score": 0.1,
+                  "graph_score": 0.6667,
+                  "combined_score": 0.5713,
+                  "selected_quote": "First-quarter revenue reached $2.25 billion and operating margin increased to 19.4 percent from 16.8 percent one year earlier."
+                }
+              ],
+              "raw_agent_output": {
+                "source_agent": "equity",
+                "answer": "Northstar Technologies 2025 Annual Report \u2014 Risk Factors: Northstar identified customer concentration, cloud infrastructure costs, cybersecurity incidents, and competition as material risks. Northstar Technologies 2025 Annual Report \u2014 Revenue: Northstar Technologies reported fiscal 2025 revenue of $8.4 billion, an increase of 18 percent from the prior year.",
+                "citations": [
+                  {
+                    "source_id": "NST-10K-2025-RISK",
+                    "quote": "Northstar identified customer concentration, cloud infrastructure costs, cybersecurity incidents, and competition as material risks.",
+                    "relevance_score": 0.8790204569102917
+                  },
+                  {
+                    "source_id": "NST-10K-2025-REV",
+                    "quote": "Northstar Technologies reported fiscal 2025 revenue of $8.4 billion, an increase of 18 percent from the prior year.",
+                    "relevance_score": 0.5810987957491953
+                  },
+                  {
+                    "source_id": "NST-Q1-2026-MARGIN",
+                    "quote": "First-quarter revenue reached $2.25 billion and operating margin increased to 19.4 percent from 16.8 percent one year earlier.",
+                    "relevance_score": 0.5713205959505787
+                  }
+                ],
+                "confidence": 0.9213632969916896,
+                "data_quality": 0.95
+              },
+              "injected_fault": "none",
+              "schema_gate": {
+                "passed": true,
+                "required_fields": [
+                  "source_agent",
+                  "answer",
+                  "citations[min_length=1]",
+                  "confidence[0..1]",
+                  "data_quality[0..1]"
+                ]
+              }
+            },
+            "checks": [
+              "citations must contain at least one item",
+              "citation source IDs must be unique",
+              "confidence and data_quality must be within [0, 1]",
+              "graph paths may reference only indexed source IDs"
+            ]
+          },
+          {
+            "step_id": "02-agent-macro",
+            "node": "agent:macro",
+            "title": "Macro GraphRAG agent",
+            "purpose": "Link query entities, traverse the knowledge graph, fuse graph and text scores, construct citations, and enforce the agent contract.",
+            "status": "PASS",
+            "duration_ms": 154.80137499980628,
+            "calls": [
+              "FinancialKnowledgeGraph.expand(query, domain)",
+              "BM25Index.score(query)",
+              "ollama.embed(query)",
+              "cosine_similarity(query, documents)",
+              "weighted_fusion(bm25, vector, title, graph)",
+              "AgentOutput.model_validate(raw_output)"
+            ],
+            "input": {
+              "query": "How could inflation and energy costs affect Northstar revenue and emissions?",
+              "domain": "macro",
+              "top_k": 3,
+              "fault_injection": "none"
+            },
+            "output": {
+              "retrieval_backend": "ollama",
+              "score_fusion": {
+                "bm25": 0.38,
+                "vector": 0.32,
+                "title": 0.12,
+                "graph": 0.18
+              },
+              "graph_context": {
+                "seed_entities": [
+                  {
+                    "id": "esg:emissions",
+                    "label": "Scope 1 and Scope 2 emissions",
+                    "type": "esg_metric",
+                    "score": 1.0
+                  },
+                  {
+                    "id": "metric:revenue",
+                    "label": "Revenue growth",
+                    "type": "metric",
+                    "score": 1.0
+                  },
+                  {
+                    "id": "org:northstar",
+                    "label": "Northstar Technologies",
+                    "type": "organization",
+                    "score": 1.0
+                  }
+                ],
+                "expanded_entities": [],
+                "paths": [],
+                "document_boosts": {}
+              },
+              "candidates": [
+                {
+                  "rank": 1,
+                  "source_id": "MACRO-CPI-2026-06",
+                  "title": "Illustrative U.S. CPI Consumer Price Update \u2014 June 2026",
+                  "lexical_score": 0.4744,
+                  "vector_score": 0.6119,
+                  "title_score": 0.0,
+                  "graph_score": 0.0,
+                  "combined_score": 0.3761,
+                  "selected_quote": "Shelter inflation moderated, energy prices declined, and core services remained the largest contributor to monthly inflation."
+                },
+                {
+                  "rank": 2,
+                  "source_id": "MACRO-FED-2026-07",
+                  "title": "Illustrative Monetary Policy Summary \u2014 July 2026",
+                  "lexical_score": 0.2426,
+                  "vector_score": 0.5144,
+                  "title_score": 0.0,
+                  "graph_score": 0.0,
+                  "combined_score": 0.2568,
+                  "selected_quote": "The policy committee maintained the benchmark interest-rate range and emphasized that future decisions would depend on inflation, employment, and financial conditions."
+                },
+                {
+                  "rank": 3,
+                  "source_id": "MACRO-LABOR-2026-06",
+                  "title": "Illustrative U.S. Labor Market Brief \u2014 June 2026",
+                  "lexical_score": 0.1836,
+                  "vector_score": 0.5379,
+                  "title_score": 0.0,
+                  "graph_score": 0.0,
+                  "combined_score": 0.2419,
+                  "selected_quote": "Wage growth remained above consumer inflation but job openings declined in technology and professional services."
+                }
+              ],
+              "raw_agent_output": {
+                "source_agent": "macro",
+                "answer": "Illustrative U.S. CPI Consumer Price Update \u2014 June 2026: Shelter inflation moderated, energy prices declined, and core services remained the largest contributor to monthly inflation. Illustrative Monetary Policy Summary \u2014 July 2026: The policy committee maintained the benchmark interest-rate range and emphasized that future decisions would depend on inflation, employment, and financial conditions.",
+                "citations": [
+                  {
+                    "source_id": "MACRO-CPI-2026-06",
+                    "quote": "Shelter inflation moderated, energy prices declined, and core services remained the largest contributor to monthly inflation.",
+                    "relevance_score": 0.37607155070938114
+                  },
+                  {
+                    "source_id": "MACRO-FED-2026-07",
+                    "quote": "The policy committee maintained the benchmark interest-rate range and emphasized that future decisions would depend on inflation, employment, and financial conditions.",
+                    "relevance_score": 0.25679717084126563
+                  },
+                  {
+                    "source_id": "MACRO-LABOR-2026-06",
+                    "quote": "Wage growth remained above consumer inflation but job openings declined in technology and professional services.",
+                    "relevance_score": 0.24190075525123778
+                  }
+                ],
+                "confidence": 0.5944465079610978,
+                "data_quality": 0.95
+              },
+              "injected_fault": "none",
+              "schema_gate": {
+                "passed": true,
+                "required_fields": [
+                  "source_agent",
+                  "answer",
+                  "citations[min_length=1]",
+                  "confidence[0..1]",
+                  "data_quality[0..1]"
+                ]
+              }
+            },
+            "checks": [
+              "citations must contain at least one item",
+              "citation source IDs must be unique",
+              "confidence and data_quality must be within [0, 1]",
+              "graph paths may reference only indexed source IDs"
+            ]
+          },
+          {
+            "step_id": "02-agent-esg",
+            "node": "agent:esg",
+            "title": "Esg GraphRAG agent",
+            "purpose": "Link query entities, traverse the knowledge graph, fuse graph and text scores, construct citations, and enforce the agent contract.",
+            "status": "PASS",
+            "duration_ms": 139.4440419971943,
+            "calls": [
+              "FinancialKnowledgeGraph.expand(query, domain)",
+              "BM25Index.score(query)",
+              "ollama.embed(query)",
+              "cosine_similarity(query, documents)",
+              "weighted_fusion(bm25, vector, title, graph)",
+              "AgentOutput.model_validate(raw_output)"
+            ],
+            "input": {
+              "query": "How could inflation and energy costs affect Northstar revenue and emissions?",
+              "domain": "esg",
+              "top_k": 3,
+              "fault_injection": "none"
+            },
+            "output": {
+              "retrieval_backend": "ollama",
+              "score_fusion": {
+                "bm25": 0.38,
+                "vector": 0.32,
+                "title": 0.12,
+                "graph": 0.18
+              },
+              "graph_context": {
+                "seed_entities": [
+                  {
+                    "id": "esg:emissions",
+                    "label": "Scope 1 and Scope 2 emissions",
+                    "type": "esg_metric",
+                    "score": 1.0
+                  },
+                  {
+                    "id": "metric:revenue",
+                    "label": "Revenue growth",
+                    "type": "metric",
+                    "score": 1.0
+                  },
+                  {
+                    "id": "org:northstar",
+                    "label": "Northstar Technologies",
+                    "type": "organization",
+                    "score": 1.0
+                  }
+                ],
+                "expanded_entities": [
+                  {
+                    "id": "esg:renewables",
+                    "label": "Renewable electricity",
+                    "type": "esg_driver",
+                    "score": 0.55
+                  },
+                  {
+                    "id": "governance:modelrisk",
+                    "label": "Model-risk council",
+                    "type": "governance",
+                    "score": 0.55
+                  },
+                  {
+                    "id": "risk:cyber",
+                    "label": "Cybersecurity incidents",
+                    "type": "risk",
+                    "score": 0.55
+                  }
+                ],
+                "paths": [
+                  {
+                    "source": "org:northstar",
+                    "source_label": "Northstar Technologies",
+                    "relation": "reports",
+                    "target": "esg:emissions",
+                    "target_label": "Scope 1 and Scope 2 emissions",
+                    "hop": 1,
+                    "score": 0.9,
+                    "source_ids": [
+                      "NST-ESG-2025-EMISSIONS"
+                    ]
+                  },
+                  {
+                    "source": "esg:renewables",
+                    "source_label": "Renewable electricity",
+                    "relation": "reduces",
+                    "target": "esg:emissions",
+                    "target_label": "Scope 1 and Scope 2 emissions",
+                    "hop": 1,
+                    "score": 0.55,
+                    "source_ids": [
+                      "NST-ESG-2025-EMISSIONS"
+                    ]
+                  },
+                  {
+                    "source": "org:northstar",
+                    "source_label": "Northstar Technologies",
+                    "relation": "established",
+                    "target": "governance:modelrisk",
+                    "target_label": "Model-risk council",
+                    "hop": 1,
+                    "score": 0.55,
+                    "source_ids": [
+                      "NST-ESG-2025-GOV"
+                    ]
+                  },
+                  {
+                    "source": "org:northstar",
+                    "source_label": "Northstar Technologies",
+                    "relation": "exposed_to",
+                    "target": "risk:cyber",
+                    "target_label": "Cybersecurity incidents",
+                    "hop": 1,
+                    "score": 0.55,
+                    "source_ids": [
+                      "NST-ESG-2025-GOV"
+                    ]
+                  }
+                ],
+                "document_boosts": {
+                  "NST-ESG-2025-EMISSIONS": 1.0,
+                  "NST-ESG-2025-GOV": 0.7586
+                }
+              },
+              "candidates": [
+                {
+                  "rank": 1,
+                  "source_id": "NST-ESG-2025-EMISSIONS",
+                  "title": "Northstar Technologies 2025 Sustainability Report \u2014 Emissions",
+                  "lexical_score": 0.5173,
+                  "vector_score": 1.0,
+                  "title_score": 0.2,
+                  "graph_score": 1.0,
+                  "combined_score": 0.7206,
+                  "selected_quote": "Northstar reduced combined Scope 1 and Scope 2 market-based greenhouse-gas emissions by 14 percent from its 2022 baseline."
+                },
+                {
+                  "rank": 2,
+                  "source_id": "NST-ESG-2025-GOV",
+                  "title": "Northstar Technologies 2025 Sustainability Report \u2014 Governance",
+                  "lexical_score": 0.176,
+                  "vector_score": 0.7922,
+                  "title_score": 0.1,
+                  "graph_score": 0.7586,
+                  "combined_score": 0.4689,
+                  "selected_quote": "Northstar established an internal model-risk council and requires human approval for high-impact automated decisions."
+                },
+                {
+                  "rank": 3,
+                  "source_id": "ESG-STANDARD-2026",
+                  "title": "Illustrative Enterprise ESG Disclosure Guidance",
+                  "lexical_score": 0.5252,
+                  "vector_score": 0.5807,
+                  "title_score": 0.0,
+                  "graph_score": 0.0,
+                  "combined_score": 0.3854,
+                  "selected_quote": "Comparable disclosures distinguish absolute emissions from intensity metrics and explain acquisitions, divestitures, or methodology changes that affect trends."
+                }
+              ],
+              "raw_agent_output": {
+                "source_agent": "esg",
+                "answer": "Northstar Technologies 2025 Sustainability Report \u2014 Emissions: Northstar reduced combined Scope 1 and Scope 2 market-based greenhouse-gas emissions by 14 percent from its 2022 baseline. Northstar Technologies 2025 Sustainability Report \u2014 Governance: Northstar established an internal model-risk council and requires human approval for high-impact automated decisions.",
+                "citations": [
+                  {
+                    "source_id": "NST-ESG-2025-EMISSIONS",
+                    "quote": "Northstar reduced combined Scope 1 and Scope 2 market-based greenhouse-gas emissions by 14 percent from its 2022 baseline.",
+                    "relevance_score": 0.7205670372779154
+                  },
+                  {
+                    "source_id": "NST-ESG-2025-GOV",
+                    "quote": "Northstar established an internal model-risk council and requires human approval for high-impact automated decisions.",
+                    "relevance_score": 0.4689084374210995
+                  },
+                  {
+                    "source_id": "ESG-STANDARD-2026",
+                    "quote": "Comparable disclosures distinguish absolute emissions from intensity metrics and explain acquisitions, divestitures, or methodology changes that affect trends.",
+                    "relevance_score": 0.38539818830944483
+                  }
+                ],
+                "confidence": 0.818368574230645,
+                "data_quality": 0.95
+              },
+              "injected_fault": "none",
+              "schema_gate": {
+                "passed": true,
+                "required_fields": [
+                  "source_agent",
+                  "answer",
+                  "citations[min_length=1]",
+                  "confidence[0..1]",
+                  "data_quality[0..1]"
+                ]
+              }
+            },
+            "checks": [
+              "citations must contain at least one item",
+              "citation source IDs must be unique",
+              "confidence and data_quality must be within [0, 1]",
+              "graph paths may reference only indexed source IDs"
+            ]
+          },
+          {
+            "step_id": "03-aggregation",
+            "node": "aggregation",
+            "title": "Evidence-preserving aggregation",
+            "purpose": "Merge valid agent outputs without dropping source attribution.",
+            "status": "PASS",
+            "duration_ms": 0.04712492227554321,
+            "calls": [
+              "AgentOutput.model_validate(...) for each branch",
+              "map-reduce merge"
+            ],
+            "input": {
+              "valid_agent_count": 3,
+              "agents": [
+                "equity",
+                "macro",
+                "esg"
+              ],
+              "error_count": 0
+            },
+            "output": {
+              "answer_created": true,
+              "answer_characters": 1130,
+              "preserved_citations": 9
+            },
+            "checks": [
+              "Only schema-valid outputs may enter aggregation."
+            ]
+          },
+          {
+            "step_id": "04-trust-evaluator",
+            "node": "trust_evaluator",
+            "title": "Runtime trust decision",
+            "purpose": "Independently validate routing, citations, support, and confidence.",
+            "status": "PASS",
+            "duration_ms": 0.29908400028944016,
+            "calls": [
+              "Corpus.validate_quote(source_id, quote)",
+              "token_support(answer, citations)",
+              "TrustEvaluator.evaluate(...) behavior policy"
+            ],
+            "input": {
+              "approved_routes": [
+                "equity",
+                "macro",
+                "esg"
+              ],
+              "agent_output_count": 3,
+              "boundary_errors": []
+            },
+            "output": {
+              "decision": "ACCEPT",
+              "routing_validity": 1.0,
+              "citation_coverage": 1.0,
+              "citation_validity": 1.0,
+              "support_score": 0.8443455691509084,
+              "average_confidence": 0.7780594597278108,
+              "average_data_quality": 0.95,
+              "reasons": [
+                "All boundary, citation, routing, and evidence-support checks passed."
+              ]
+            },
+            "checks": [
+              "routing_validity == 1.0",
+              "citation_coverage == 1.0",
+              "citation_validity == 1.0",
+              "confidence, quality, and support clear escalation thresholds"
+            ]
+          }
+        ],
+        "errors": [],
+        "latency_ms": 173.10625000391155
+      }
+    },
+    {
+      "id": "missing-citation",
+      "label": "Missing citation",
+      "description": "Fault injection removes citations; Pydantic rejects the output before aggregation.",
+      "query": "Give Northstar revenue with no supporting source.",
+      "fault": "no_citation",
+      "concepts": [
+        "Pydantic min_length",
+        "fail closed",
+        "boundary enforcement"
+      ],
+      "response": {
+        "query": "Give Northstar revenue with no supporting source.",
+        "retrieval_backend": "ollama",
+        "retrieval_mode": "graphrag-hybrid",
+        "routes": [
+          "equity"
+        ],
+        "answer": null,
+        "agent_outputs": [],
+        "trust_report": {
+          "decision": "REJECT",
+          "routing_validity": 0.0,
+          "citation_coverage": 0.0,
+          "citation_validity": 0.0,
+          "support_score": 0.0,
+          "average_confidence": 0.0,
+          "average_data_quality": 0.0,
+          "reasons": [
+            "No valid agent outputs remained after boundary validation.",
+            "equity output failed schema gate: List should have at least 1 item after validation, not 0"
+          ]
+        },
+        "audit_trail": [
+          {
+            "stage": "router",
+            "status": "PASS",
+            "detail": "Selected routes: equity; scores={'equity': 1.0, 'macro': 0.0, 'esg': 0.0}",
+            "timestamp": "2026-08-14T19:38:52.540+00:00"
+          },
+          {
+            "stage": "agent:equity",
+            "status": "FAIL",
+            "detail": "equity output failed schema gate: List should have at least 1 item after validation, not 0",
+            "timestamp": "2026-08-14T19:38:52.672+00:00"
+          },
+          {
+            "stage": "aggregation",
+            "status": "FAIL",
+            "detail": "Aggregated 0 valid agent outputs.",
+            "timestamp": "2026-08-14T19:38:52.672+00:00"
+          },
+          {
+            "stage": "trust_evaluator",
+            "status": "FAIL",
+            "detail": "Decision=REJECT; reasons=No valid agent outputs remained after boundary validation. equity output failed schema gate: List should have at least 1 item after validation, not 0",
+            "timestamp": "2026-08-14T19:38:52.672+00:00"
+          }
+        ],
+        "trace_steps": [
+          {
+            "step_id": "01-router",
+            "node": "router",
+            "title": "Route and decompose query",
+            "purpose": "Select only the financial domains needed for this request.",
+            "status": "PASS",
+            "duration_ms": 0.029709073714911938,
+            "calls": [
+              "tokenize(query)",
+              "route_query(query)",
+              "LangGraph Send(...)"
+            ],
+            "input": {
+              "query": "Give Northstar revenue with no supporting source."
+            },
+            "output": {
+              "selected_routes": [
+                "equity"
+              ],
+              "domain_scores": {
+                "equity": 1.0,
+                "macro": 0.0,
+                "esg": 0.0
+              }
+            },
+            "checks": [
+              "Output routes must be a subset of equity, macro, and esg."
+            ]
+          },
+          {
+            "step_id": "02-agent-equity",
+            "node": "agent:equity",
+            "title": "Equity GraphRAG agent",
+            "purpose": "Link query entities, traverse the knowledge graph, fuse graph and text scores, construct citations, and enforce the agent contract.",
+            "status": "FAIL",
+            "duration_ms": 131.40670803841203,
+            "calls": [
+              "FinancialKnowledgeGraph.expand(query, domain)",
+              "BM25Index.score(query)",
+              "ollama.embed(query)",
+              "cosine_similarity(query, documents)",
+              "weighted_fusion(bm25, vector, title, graph)",
+              "AgentOutput.model_validate(raw_output)"
+            ],
+            "input": {
+              "query": "Give Northstar revenue with no supporting source.",
+              "domain": "equity",
+              "top_k": 3,
+              "fault_injection": "no_citation"
+            },
+            "output": {
+              "retrieval_backend": "ollama",
+              "score_fusion": {
+                "bm25": 0.38,
+                "vector": 0.32,
+                "title": 0.12,
+                "graph": 0.18
+              },
+              "graph_context": {
+                "seed_entities": [
+                  {
+                    "id": "metric:revenue",
+                    "label": "Revenue growth",
+                    "type": "metric",
+                    "score": 1.0
+                  },
+                  {
+                    "id": "org:northstar",
+                    "label": "Northstar Technologies",
+                    "type": "organization",
+                    "score": 1.0
+                  }
+                ],
+                "expanded_entities": [
+                  {
+                    "id": "metric:rpo",
+                    "label": "Remaining performance obligations",
+                    "type": "metric",
+                    "score": 0.55
+                  },
+                  {
+                    "id": "product:cloud",
+                    "label": "Cloud platform",
+                    "type": "product",
+                    "score": 0.55
+                  },
+                  {
+                    "id": "risk:concentration",
+                    "label": "Customer concentration",
+                    "type": "risk",
+                    "score": 0.55
+                  },
+                  {
+                    "id": "risk:cyber",
+                    "label": "Cybersecurity incidents",
+                    "type": "risk",
+                    "score": 0.55
+                  }
+                ],
+                "paths": [
+                  {
+                    "source": "metric:rpo",
+                    "source_label": "Remaining performance obligations",
+                    "relation": "signals_future",
+                    "target": "metric:revenue",
+                    "target_label": "Revenue growth",
+                    "hop": 1,
+                    "score": 0.55,
+                    "source_ids": [
+                      "NST-Q1-2026-MARGIN"
+                    ]
+                  },
+                  {
+                    "source": "org:northstar",
+                    "source_label": "Northstar Technologies",
+                    "relation": "operates",
+                    "target": "product:cloud",
+                    "target_label": "Cloud platform",
+                    "hop": 1,
+                    "score": 0.55,
+                    "source_ids": [
+                      "NST-10K-2025-REV",
+                      "NST-Q1-2026-MARGIN"
+                    ]
+                  },
+                  {
+                    "source": "org:northstar",
+                    "source_label": "Northstar Technologies",
+                    "relation": "exposed_to",
+                    "target": "risk:concentration",
+                    "target_label": "Customer concentration",
+                    "hop": 1,
+                    "score": 0.55,
+                    "source_ids": [
+                      "NST-10K-2025-RISK"
+                    ]
+                  },
+                  {
+                    "source": "org:northstar",
+                    "source_label": "Northstar Technologies",
+                    "relation": "exposed_to",
+                    "target": "risk:cyber",
+                    "target_label": "Cybersecurity incidents",
+                    "hop": 1,
+                    "score": 0.55,
+                    "source_ids": [
+                      "NST-10K-2025-RISK"
+                    ]
+                  },
+                  {
+                    "source": "product:cloud",
+                    "source_label": "Cloud platform",
+                    "relation": "drives",
+                    "target": "metric:revenue",
+                    "target_label": "Revenue growth",
+                    "hop": 1,
+                    "score": 0.55,
+                    "source_ids": [
+                      "NST-10K-2025-REV"
+                    ]
+                  },
+                  {
+                    "source": "risk:concentration",
+                    "source_label": "Customer concentration",
+                    "relation": "threatens",
+                    "target": "metric:revenue",
+                    "target_label": "Revenue growth",
+                    "hop": 1,
+                    "score": 0.55,
+                    "source_ids": [
+                      "NST-10K-2025-RISK"
+                    ]
+                  }
+                ],
+                "document_boosts": {
+                  "NST-10K-2025-REV": 0.6667,
+                  "NST-10K-2025-RISK": 1.0,
+                  "NST-Q1-2026-MARGIN": 0.6667
+                }
+              },
+              "candidates": [
+                {
+                  "rank": 1,
+                  "source_id": "NST-10K-2025-REV",
+                  "title": "Northstar Technologies 2025 Annual Report \u2014 Revenue",
+                  "lexical_score": 1.0,
+                  "vector_score": 1.0,
+                  "title_score": 0.2857,
+                  "graph_score": 0.6667,
+                  "combined_score": 0.8543,
+                  "selected_quote": "Northstar Technologies reported fiscal 2025 revenue of $8.4 billion, an increase of 18 percent from the prior year."
+                },
+                {
+                  "rank": 2,
+                  "source_id": "NST-10K-2025-RISK",
+                  "title": "Northstar Technologies 2025 Annual Report \u2014 Risk Factors",
+                  "lexical_score": 0.7066,
+                  "vector_score": 0.8455,
+                  "title_score": 0.1429,
+                  "graph_score": 1.0,
+                  "combined_score": 0.7362,
+                  "selected_quote": "Northstar identified customer concentration, cloud infrastructure costs, cybersecurity incidents, and competition as material risks."
+                },
+                {
+                  "rank": 3,
+                  "source_id": "NST-Q1-2026-MARGIN",
+                  "title": "Northstar Technologies Q1 2026 Earnings Release",
+                  "lexical_score": 0.6276,
+                  "vector_score": 0.8249,
+                  "title_score": 0.1429,
+                  "graph_score": 0.6667,
+                  "combined_score": 0.6396,
+                  "selected_quote": "First-quarter revenue reached $2.25 billion and operating margin increased to 19.4 percent from 16.8 percent one year earlier."
+                }
+              ],
+              "raw_agent_output": {
+                "source_agent": "equity",
+                "answer": "Northstar Technologies 2025 Annual Report \u2014 Revenue: Northstar Technologies reported fiscal 2025 revenue of $8.4 billion, an increase of 18 percent from the prior year. Northstar Technologies 2025 Annual Report \u2014 Risk Factors: Northstar identified customer concentration, cloud infrastructure costs, cybersecurity incidents, and competition as material risks.",
+                "citations": [],
+                "confidence": 0.9052896142857142,
+                "data_quality": 0.95
+              },
+              "injected_fault": "no_citation",
+              "schema_gate": {
+                "passed": false,
+                "error": "equity output failed schema gate: List should have at least 1 item after validation, not 0"
+              }
+            },
+            "checks": [
+              "citations must contain at least one item",
+              "citation source IDs must be unique",
+              "confidence and data_quality must be within [0, 1]",
+              "graph paths may reference only indexed source IDs"
+            ]
+          },
+          {
+            "step_id": "03-aggregation",
+            "node": "aggregation",
+            "title": "Evidence-preserving aggregation",
+            "purpose": "Merge valid agent outputs without dropping source attribution.",
+            "status": "FAIL",
+            "duration_ms": 0.00966701190918684,
+            "calls": [
+              "AgentOutput.model_validate(...) for each branch",
+              "map-reduce merge"
+            ],
+            "input": {
+              "valid_agent_count": 0,
+              "agents": [],
+              "error_count": 1
+            },
+            "output": {
+              "answer_created": false,
+              "answer_characters": 0,
+              "preserved_citations": 0
+            },
+            "checks": [
+              "Only schema-valid outputs may enter aggregation."
+            ]
+          },
+          {
+            "step_id": "04-trust-evaluator",
+            "node": "trust_evaluator",
+            "title": "Runtime trust decision",
+            "purpose": "Independently validate routing, citations, support, and confidence.",
+            "status": "FAIL",
+            "duration_ms": 0.018125050701200962,
+            "calls": [
+              "Corpus.validate_quote(source_id, quote)",
+              "token_support(answer, citations)",
+              "TrustEvaluator.evaluate(...) behavior policy"
+            ],
+            "input": {
+              "approved_routes": [
+                "equity"
+              ],
+              "agent_output_count": 0,
+              "boundary_errors": [
+                "equity output failed schema gate: List should have at least 1 item after validation, not 0"
+              ]
+            },
+            "output": {
+              "decision": "REJECT",
+              "routing_validity": 0.0,
+              "citation_coverage": 0.0,
+              "citation_validity": 0.0,
+              "support_score": 0.0,
+              "average_confidence": 0.0,
+              "average_data_quality": 0.0,
+              "reasons": [
+                "No valid agent outputs remained after boundary validation.",
+                "equity output failed schema gate: List should have at least 1 item after validation, not 0"
+              ]
+            },
+            "checks": [
+              "routing_validity == 1.0",
+              "citation_coverage == 1.0",
+              "citation_validity == 1.0",
+              "confidence, quality, and support clear escalation thresholds"
+            ]
+          }
+        ],
+        "errors": [
+          "equity output failed schema gate: List should have at least 1 item after validation, not 0"
+        ],
+        "latency_ms": 133.2797500072047
+      }
+    },
+    {
+      "id": "fabricated-source",
+      "label": "Fabricated source",
+      "description": "The schema passes, but runtime source validation catches a nonexistent citation ID.",
+      "query": "Provide the current CPI inflation result from a fabricated document.",
+      "fault": "invalid_citation",
+      "concepts": [
+        "source verification",
+        "defense in depth",
+        "runtime rejection"
+      ],
+      "response": {
+        "query": "Provide the current CPI inflation result from a fabricated document.",
+        "retrieval_backend": "ollama",
+        "retrieval_mode": "graphrag-hybrid",
+        "routes": [
+          "macro"
+        ],
+        "answer": "Illustrative U.S. CPI Consumer Price Update \u2014 June 2026: Shelter inflation moderated, energy prices declined, and core services remained the largest contributor to monthly inflation. Illustrative Monetary Policy Summary \u2014 July 2026: The policy committee maintained the benchmark interest-rate range and emphasized that future decisions would depend on inflation, employment, and financial conditions.",
+        "agent_outputs": [
+          {
+            "source_agent": "macro",
+            "answer": "Illustrative U.S. CPI Consumer Price Update \u2014 June 2026: Shelter inflation moderated, energy prices declined, and core services remained the largest contributor to monthly inflation. Illustrative Monetary Policy Summary \u2014 July 2026: The policy committee maintained the benchmark interest-rate range and emphasized that future decisions would depend on inflation, employment, and financial conditions.",
+            "citations": [
+              {
+                "source_id": "NONEXISTENT-SOURCE",
+                "quote": "Shelter inflation moderated, energy prices declined, and core services remained the largest contributor to monthly inflation.",
+                "relevance_score": 0.8933333333333333
+              },
+              {
+                "source_id": "MACRO-FED-2026-07",
+                "quote": "The policy committee maintained the benchmark interest-rate range and emphasized that future decisions would depend on inflation, employment, and financial conditions.",
+                "relevance_score": 0.6135439501817721
+              },
+              {
+                "source_id": "MACRO-LABOR-2026-06",
+                "quote": "Nonfarm payroll growth slowed while the unemployment rate held at 4.2 percent in the illustrative June 2026 labor report.",
+                "relevance_score": 0.4069484667367234
+              }
+            ],
+            "confidence": 0.9306666666666666,
+            "data_quality": 0.95
+          }
+        ],
+        "trust_report": {
+          "decision": "REJECT",
+          "routing_validity": 1.0,
+          "citation_coverage": 1.0,
+          "citation_validity": 0.6666666666666666,
+          "support_score": 0.825,
+          "average_confidence": 0.9306666666666666,
+          "average_data_quality": 0.95,
+          "reasons": [
+            "One or more citations could not be verified against the corpus."
+          ]
+        },
+        "audit_trail": [
+          {
+            "stage": "router",
+            "status": "PASS",
+            "detail": "Selected routes: macro; scores={'equity': 0.0, 'macro': 1.0, 'esg': 0.0}",
+            "timestamp": "2026-08-14T19:38:52.673+00:00"
+          },
+          {
+            "stage": "agent:macro",
+            "status": "PASS",
+            "detail": "Schema gate passed with 3 citations.",
+            "timestamp": "2026-08-14T19:38:52.805+00:00"
+          },
+          {
+            "stage": "aggregation",
+            "status": "PASS",
+            "detail": "Aggregated 1 valid agent outputs.",
+            "timestamp": "2026-08-14T19:38:52.805+00:00"
+          },
+          {
+            "stage": "trust_evaluator",
+            "status": "FAIL",
+            "detail": "Decision=REJECT; reasons=One or more citations could not be verified against the corpus.",
+            "timestamp": "2026-08-14T19:38:52.806+00:00"
+          }
+        ],
+        "trace_steps": [
+          {
+            "step_id": "01-router",
+            "node": "router",
+            "title": "Route and decompose query",
+            "purpose": "Select only the financial domains needed for this request.",
+            "status": "PASS",
+            "duration_ms": 0.03245798870921135,
+            "calls": [
+              "tokenize(query)",
+              "route_query(query)",
+              "LangGraph Send(...)"
+            ],
+            "input": {
+              "query": "Provide the current CPI inflation result from a fabricated document."
+            },
+            "output": {
+              "selected_routes": [
+                "macro"
+              ],
+              "domain_scores": {
+                "equity": 0.0,
+                "macro": 1.0,
+                "esg": 0.0
+              }
+            },
+            "checks": [
+              "Output routes must be a subset of equity, macro, and esg."
+            ]
+          },
+          {
+            "step_id": "02-agent-macro",
+            "node": "agent:macro",
+            "title": "Macro GraphRAG agent",
+            "purpose": "Link query entities, traverse the knowledge graph, fuse graph and text scores, construct citations, and enforce the agent contract.",
+            "status": "PASS",
+            "duration_ms": 131.46808301098645,
+            "calls": [
+              "FinancialKnowledgeGraph.expand(query, domain)",
+              "BM25Index.score(query)",
+              "ollama.embed(query)",
+              "cosine_similarity(query, documents)",
+              "weighted_fusion(bm25, vector, title, graph)",
+              "AgentOutput.model_validate(raw_output)"
+            ],
+            "input": {
+              "query": "Provide the current CPI inflation result from a fabricated document.",
+              "domain": "macro",
+              "top_k": 3,
+              "fault_injection": "invalid_citation"
+            },
+            "output": {
+              "retrieval_backend": "ollama",
+              "score_fusion": {
+                "bm25": 0.38,
+                "vector": 0.32,
+                "title": 0.12,
+                "graph": 0.18
+              },
+              "graph_context": {
+                "seed_entities": [
+                  {
+                    "id": "macro:inflation",
+                    "label": "Consumer inflation",
+                    "type": "macro_indicator",
+                    "score": 1.0
+                  }
+                ],
+                "expanded_entities": [
+                  {
+                    "id": "macro:fed",
+                    "label": "Monetary policy",
+                    "type": "policy",
+                    "score": 0.55
+                  }
+                ],
+                "paths": [
+                  {
+                    "source": "macro:inflation",
+                    "source_label": "Consumer inflation",
+                    "relation": "informs",
+                    "target": "macro:fed",
+                    "target_label": "Monetary policy",
+                    "hop": 1,
+                    "score": 0.55,
+                    "source_ids": [
+                      "MACRO-CPI-2026-06",
+                      "MACRO-FED-2026-07"
+                    ]
+                  }
+                ],
+                "document_boosts": {
+                  "MACRO-CPI-2026-06": 1.0,
+                  "MACRO-FED-2026-07": 1.0
+                }
+              },
+              "candidates": [
+                {
+                  "rank": 1,
+                  "source_id": "MACRO-CPI-2026-06",
+                  "title": "Illustrative U.S. CPI Consumer Price Update \u2014 June 2026",
+                  "lexical_score": 1.0,
+                  "vector_score": 1.0,
+                  "title_score": 0.1111,
+                  "graph_score": 1.0,
+                  "combined_score": 0.8933,
+                  "selected_quote": "Shelter inflation moderated, energy prices declined, and core services remained the largest contributor to monthly inflation."
+                },
+                {
+                  "rank": 2,
+                  "source_id": "MACRO-FED-2026-07",
+                  "title": "Illustrative Monetary Policy Summary \u2014 July 2026",
+                  "lexical_score": 0.5414,
+                  "vector_score": 0.7119,
+                  "title_score": 0.0,
+                  "graph_score": 1.0,
+                  "combined_score": 0.6135,
+                  "selected_quote": "The policy committee maintained the benchmark interest-rate range and emphasized that future decisions would depend on inflation, employment, and financial conditions."
+                },
+                {
+                  "rank": 3,
+                  "source_id": "MACRO-LABOR-2026-06",
+                  "title": "Illustrative U.S. Labor Market Brief \u2014 June 2026",
+                  "lexical_score": 0.4185,
+                  "vector_score": 0.7748,
+                  "title_score": 0.0,
+                  "graph_score": 0.0,
+                  "combined_score": 0.4069,
+                  "selected_quote": "Nonfarm payroll growth slowed while the unemployment rate held at 4.2 percent in the illustrative June 2026 labor report."
+                }
+              ],
+              "raw_agent_output": {
+                "source_agent": "macro",
+                "answer": "Illustrative U.S. CPI Consumer Price Update \u2014 June 2026: Shelter inflation moderated, energy prices declined, and core services remained the largest contributor to monthly inflation. Illustrative Monetary Policy Summary \u2014 July 2026: The policy committee maintained the benchmark interest-rate range and emphasized that future decisions would depend on inflation, employment, and financial conditions.",
+                "citations": [
+                  {
+                    "source_id": "NONEXISTENT-SOURCE",
+                    "quote": "Shelter inflation moderated, energy prices declined, and core services remained the largest contributor to monthly inflation.",
+                    "relevance_score": 0.8933333333333333
+                  },
+                  {
+                    "source_id": "MACRO-FED-2026-07",
+                    "quote": "The policy committee maintained the benchmark interest-rate range and emphasized that future decisions would depend on inflation, employment, and financial conditions.",
+                    "relevance_score": 0.6135439501817721
+                  },
+                  {
+                    "source_id": "MACRO-LABOR-2026-06",
+                    "quote": "Nonfarm payroll growth slowed while the unemployment rate held at 4.2 percent in the illustrative June 2026 labor report.",
+                    "relevance_score": 0.4069484667367234
+                  }
+                ],
+                "confidence": 0.9306666666666666,
+                "data_quality": 0.95
+              },
+              "injected_fault": "invalid_citation",
+              "schema_gate": {
+                "passed": true,
+                "required_fields": [
+                  "source_agent",
+                  "answer",
+                  "citations[min_length=1]",
+                  "confidence[0..1]",
+                  "data_quality[0..1]"
+                ]
+              }
+            },
+            "checks": [
+              "citations must contain at least one item",
+              "citation source IDs must be unique",
+              "confidence and data_quality must be within [0, 1]",
+              "graph paths may reference only indexed source IDs"
+            ]
+          },
+          {
+            "step_id": "03-aggregation",
+            "node": "aggregation",
+            "title": "Evidence-preserving aggregation",
+            "purpose": "Merge valid agent outputs without dropping source attribution.",
+            "status": "PASS",
+            "duration_ms": 0.009999959729611874,
+            "calls": [
+              "AgentOutput.model_validate(...) for each branch",
+              "map-reduce merge"
+            ],
+            "input": {
+              "valid_agent_count": 1,
+              "agents": [
+                "macro"
+              ],
+              "error_count": 0
+            },
+            "output": {
+              "answer_created": true,
+              "answer_characters": 400,
+              "preserved_citations": 3
+            },
+            "checks": [
+              "Only schema-valid outputs may enter aggregation."
+            ]
+          },
+          {
+            "step_id": "04-trust-evaluator",
+            "node": "trust_evaluator",
+            "title": "Runtime trust decision",
+            "purpose": "Independently validate routing, citations, support, and confidence.",
+            "status": "FAIL",
+            "duration_ms": 0.06741599645465612,
+            "calls": [
+              "Corpus.validate_quote(source_id, quote)",
+              "token_support(answer, citations)",
+              "TrustEvaluator.evaluate(...) behavior policy"
+            ],
+            "input": {
+              "approved_routes": [
+                "macro"
+              ],
+              "agent_output_count": 1,
+              "boundary_errors": []
+            },
+            "output": {
+              "decision": "REJECT",
+              "routing_validity": 1.0,
+              "citation_coverage": 1.0,
+              "citation_validity": 0.6666666666666666,
+              "support_score": 0.825,
+              "average_confidence": 0.9306666666666666,
+              "average_data_quality": 0.95,
+              "reasons": [
+                "One or more citations could not be verified against the corpus."
+              ]
+            },
+            "checks": [
+              "routing_validity == 1.0",
+              "citation_coverage == 1.0",
+              "citation_validity == 1.0",
+              "confidence, quality, and support clear escalation thresholds"
+            ]
+          }
+        ],
+        "errors": [],
+        "latency_ms": 133.04937502834946
+      }
+    },
+    {
+      "id": "low-confidence",
+      "label": "Human escalation",
+      "description": "Structurally valid evidence falls below policy thresholds and escalates to review.",
+      "query": "Assess uncertainty in the inflation and CPI outlook.",
+      "fault": "low_confidence",
+      "concepts": [
+        "soft thresholds",
+        "human in the loop",
+        "ESCALATE policy"
+      ],
+      "response": {
+        "query": "Assess uncertainty in the inflation and CPI outlook.",
+        "retrieval_backend": "ollama",
+        "retrieval_mode": "graphrag-hybrid",
+        "routes": [
+          "macro"
+        ],
+        "answer": "Illustrative U.S. CPI Consumer Price Update \u2014 June 2026: Shelter inflation moderated, energy prices declined, and core services remained the largest contributor to monthly inflation. Illustrative Monetary Policy Summary \u2014 July 2026: The policy committee maintained the benchmark interest-rate range and emphasized that future decisions would depend on inflation, employment, and financial conditions.",
+        "agent_outputs": [
+          {
+            "source_agent": "macro",
+            "answer": "Illustrative U.S. CPI Consumer Price Update \u2014 June 2026: Shelter inflation moderated, energy prices declined, and core services remained the largest contributor to monthly inflation. Illustrative Monetary Policy Summary \u2014 July 2026: The policy committee maintained the benchmark interest-rate range and emphasized that future decisions would depend on inflation, employment, and financial conditions.",
+            "citations": [
+              {
+                "source_id": "MACRO-CPI-2026-06",
+                "quote": "Shelter inflation moderated, energy prices declined, and core services remained the largest contributor to monthly inflation.",
+                "relevance_score": 0.895
+              },
+              {
+                "source_id": "MACRO-FED-2026-07",
+                "quote": "The policy committee maintained the benchmark interest-rate range and emphasized that future decisions would depend on inflation, employment, and financial conditions.",
+                "relevance_score": 0.658172450161036
+              },
+              {
+                "source_id": "MACRO-LABOR-2026-06",
+                "quote": "Wage growth remained above consumer inflation but job openings declined in technology and professional services.",
+                "relevance_score": 0.5348238753970906
+              }
+            ],
+            "confidence": 0.05,
+            "data_quality": 0.95
+          }
+        ],
+        "trust_report": {
+          "decision": "ESCALATE",
+          "routing_validity": 1.0,
+          "citation_coverage": 1.0,
+          "citation_validity": 1.0,
+          "support_score": 0.8,
+          "average_confidence": 0.05,
+          "average_data_quality": 0.95,
+          "reasons": [
+            "Evidence quality is borderline and requires human review."
+          ]
+        },
+        "audit_trail": [
+          {
+            "stage": "router",
+            "status": "PASS",
+            "detail": "Selected routes: macro; scores={'equity': 0.0, 'macro': 1.0, 'esg': 0.0}",
+            "timestamp": "2026-08-14T19:38:52.806+00:00"
+          },
+          {
+            "stage": "agent:macro",
+            "status": "PASS",
+            "detail": "Schema gate passed with 3 citations.",
+            "timestamp": "2026-08-14T19:38:52.941+00:00"
+          },
+          {
+            "stage": "aggregation",
+            "status": "PASS",
+            "detail": "Aggregated 1 valid agent outputs.",
+            "timestamp": "2026-08-14T19:38:52.942+00:00"
+          },
+          {
+            "stage": "trust_evaluator",
+            "status": "WARN",
+            "detail": "Decision=ESCALATE; reasons=Evidence quality is borderline and requires human review.",
+            "timestamp": "2026-08-14T19:38:52.942+00:00"
+          }
+        ],
+        "trace_steps": [
+          {
+            "step_id": "01-router",
+            "node": "router",
+            "title": "Route and decompose query",
+            "purpose": "Select only the financial domains needed for this request.",
+            "status": "PASS",
+            "duration_ms": 0.011457945220172405,
+            "calls": [
+              "tokenize(query)",
+              "route_query(query)",
+              "LangGraph Send(...)"
+            ],
+            "input": {
+              "query": "Assess uncertainty in the inflation and CPI outlook."
+            },
+            "output": {
+              "selected_routes": [
+                "macro"
+              ],
+              "domain_scores": {
+                "equity": 0.0,
+                "macro": 1.0,
+                "esg": 0.0
+              }
+            },
+            "checks": [
+              "Output routes must be a subset of equity, macro, and esg."
+            ]
+          },
+          {
+            "step_id": "02-agent-macro",
+            "node": "agent:macro",
+            "title": "Macro GraphRAG agent",
+            "purpose": "Link query entities, traverse the knowledge graph, fuse graph and text scores, construct citations, and enforce the agent contract.",
+            "status": "PASS",
+            "duration_ms": 135.02116699237376,
+            "calls": [
+              "FinancialKnowledgeGraph.expand(query, domain)",
+              "BM25Index.score(query)",
+              "ollama.embed(query)",
+              "cosine_similarity(query, documents)",
+              "weighted_fusion(bm25, vector, title, graph)",
+              "AgentOutput.model_validate(raw_output)"
+            ],
+            "input": {
+              "query": "Assess uncertainty in the inflation and CPI outlook.",
+              "domain": "macro",
+              "top_k": 3,
+              "fault_injection": "low_confidence"
+            },
+            "output": {
+              "retrieval_backend": "ollama",
+              "score_fusion": {
+                "bm25": 0.38,
+                "vector": 0.32,
+                "title": 0.12,
+                "graph": 0.18
+              },
+              "graph_context": {
+                "seed_entities": [
+                  {
+                    "id": "macro:inflation",
+                    "label": "Consumer inflation",
+                    "type": "macro_indicator",
+                    "score": 1.0
+                  }
+                ],
+                "expanded_entities": [
+                  {
+                    "id": "macro:fed",
+                    "label": "Monetary policy",
+                    "type": "policy",
+                    "score": 0.55
+                  }
+                ],
+                "paths": [
+                  {
+                    "source": "macro:inflation",
+                    "source_label": "Consumer inflation",
+                    "relation": "informs",
+                    "target": "macro:fed",
+                    "target_label": "Monetary policy",
+                    "hop": 1,
+                    "score": 0.55,
+                    "source_ids": [
+                      "MACRO-CPI-2026-06",
+                      "MACRO-FED-2026-07"
+                    ]
+                  }
+                ],
+                "document_boosts": {
+                  "MACRO-CPI-2026-06": 1.0,
+                  "MACRO-FED-2026-07": 1.0
+                }
+              },
+              "candidates": [
+                {
+                  "rank": 1,
+                  "source_id": "MACRO-CPI-2026-06",
+                  "title": "Illustrative U.S. CPI Consumer Price Update \u2014 June 2026",
+                  "lexical_score": 1.0,
+                  "vector_score": 1.0,
+                  "title_score": 0.125,
+                  "graph_score": 1.0,
+                  "combined_score": 0.895,
+                  "selected_quote": "Shelter inflation moderated, energy prices declined, and core services remained the largest contributor to monthly inflation."
+                },
+                {
+                  "rank": 2,
+                  "source_id": "MACRO-FED-2026-07",
+                  "title": "Illustrative Monetary Policy Summary \u2014 July 2026",
+                  "lexical_score": 0.5495,
+                  "vector_score": 0.8417,
+                  "title_score": 0.0,
+                  "graph_score": 1.0,
+                  "combined_score": 0.6582,
+                  "selected_quote": "The policy committee maintained the benchmark interest-rate range and emphasized that future decisions would depend on inflation, employment, and financial conditions."
+                },
+                {
+                  "rank": 3,
+                  "source_id": "MACRO-LABOR-2026-06",
+                  "title": "Illustrative U.S. Labor Market Brief \u2014 June 2026",
+                  "lexical_score": 0.7159,
+                  "vector_score": 0.8212,
+                  "title_score": 0.0,
+                  "graph_score": 0.0,
+                  "combined_score": 0.5348,
+                  "selected_quote": "Wage growth remained above consumer inflation but job openings declined in technology and professional services."
+                }
+              ],
+              "raw_agent_output": {
+                "source_agent": "macro",
+                "answer": "Illustrative U.S. CPI Consumer Price Update \u2014 June 2026: Shelter inflation moderated, energy prices declined, and core services remained the largest contributor to monthly inflation. Illustrative Monetary Policy Summary \u2014 July 2026: The policy committee maintained the benchmark interest-rate range and emphasized that future decisions would depend on inflation, employment, and financial conditions.",
+                "citations": [
+                  {
+                    "source_id": "MACRO-CPI-2026-06",
+                    "quote": "Shelter inflation moderated, energy prices declined, and core services remained the largest contributor to monthly inflation.",
+                    "relevance_score": 0.895
+                  },
+                  {
+                    "source_id": "MACRO-FED-2026-07",
+                    "quote": "The policy committee maintained the benchmark interest-rate range and emphasized that future decisions would depend on inflation, employment, and financial conditions.",
+                    "relevance_score": 0.658172450161036
+                  },
+                  {
+                    "source_id": "MACRO-LABOR-2026-06",
+                    "quote": "Wage growth remained above consumer inflation but job openings declined in technology and professional services.",
+                    "relevance_score": 0.5348238753970906
+                  }
+                ],
+                "confidence": 0.05,
+                "data_quality": 0.95
+              },
+              "injected_fault": "low_confidence",
+              "schema_gate": {
+                "passed": true,
+                "required_fields": [
+                  "source_agent",
+                  "answer",
+                  "citations[min_length=1]",
+                  "confidence[0..1]",
+                  "data_quality[0..1]"
+                ]
+              }
+            },
+            "checks": [
+              "citations must contain at least one item",
+              "citation source IDs must be unique",
+              "confidence and data_quality must be within [0, 1]",
+              "graph paths may reference only indexed source IDs"
+            ]
+          },
+          {
+            "step_id": "03-aggregation",
+            "node": "aggregation",
+            "title": "Evidence-preserving aggregation",
+            "purpose": "Merge valid agent outputs without dropping source attribution.",
+            "status": "PASS",
+            "duration_ms": 0.037665944546461105,
+            "calls": [
+              "AgentOutput.model_validate(...) for each branch",
+              "map-reduce merge"
+            ],
+            "input": {
+              "valid_agent_count": 1,
+              "agents": [
+                "macro"
+              ],
+              "error_count": 0
+            },
+            "output": {
+              "answer_created": true,
+              "answer_characters": 400,
+              "preserved_citations": 3
+            },
+            "checks": [
+              "Only schema-valid outputs may enter aggregation."
+            ]
+          },
+          {
+            "step_id": "04-trust-evaluator",
+            "node": "trust_evaluator",
+            "title": "Runtime trust decision",
+            "purpose": "Independently validate routing, citations, support, and confidence.",
+            "status": "WARN",
+            "duration_ms": 0.161041971296072,
+            "calls": [
+              "Corpus.validate_quote(source_id, quote)",
+              "token_support(answer, citations)",
+              "TrustEvaluator.evaluate(...) behavior policy"
+            ],
+            "input": {
+              "approved_routes": [
+                "macro"
+              ],
+              "agent_output_count": 1,
+              "boundary_errors": []
+            },
+            "output": {
+              "decision": "ESCALATE",
+              "routing_validity": 1.0,
+              "citation_coverage": 1.0,
+              "citation_validity": 1.0,
+              "support_score": 0.8,
+              "average_confidence": 0.05,
+              "average_data_quality": 0.95,
+              "reasons": [
+                "Evidence quality is borderline and requires human review."
+              ]
+            },
+            "checks": [
+              "routing_validity == 1.0",
+              "citation_coverage == 1.0",
+              "citation_validity == 1.0",
+              "confidence, quality, and support clear escalation thresholds"
+            ]
+          }
+        ],
+        "errors": [],
+        "latency_ms": 136.8275829590857
+      }
+    }
+  ]
+}

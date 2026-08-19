@@ -1,0 +1,47 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "governed-multi-agent-rag"
+version = "0.1.0"
+description = "A reproducible LangGraph multi-agent GraphRAG system with source-linked graph retrieval and runtime governance."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Shihua Yu" }]
+dependencies = [
+  "fastapi>=0.115",
+  "httpx>=0.28",
+  "langgraph>=0.2.70",
+  "numpy>=2.0",
+  "pydantic>=2.10",
+  "scikit-learn>=1.5",
+  "uvicorn>=0.34",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3",
+  "pytest-cov>=6.0",
+  "ruff>=0.9",
+]
+
+[project.scripts]
+governed-rag = "governed_rag.cli:main"
+governed-rag-eval = "governed_rag.evaluate:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/governed_rag"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
